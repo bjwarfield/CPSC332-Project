@@ -322,8 +322,8 @@ insert into specialty(spec_id,name) values (51,'Anesthesiology');
 insert into specialty(spec_id,name) values (52,'Dermatology');
 insert into specialty(spec_id,name) values (53,'Otolaryngology');
 
-insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB111',51);
-insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB111',52);
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',51);
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',52);
 insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('IA2222',53);
 
 insert into appointment_test(fk_test_id,fk_appointment_id) values (41,31);
