@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`person` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `person_id_UNIQUE` ON `cpsc332_db_project`.`person` (`person_id` ASC) VISIBLE;
+CREATE UNIQUE INDEX `person_id_UNIQUE` ON `cpsc332_db_project`.`person` (`person_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -62,13 +62,13 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`doctor` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_doctor_person1_idx` ON `cpsc332_db_project`.`doctor` (`fk_person_id` ASC) VISIBLE;
+CREATE INDEX `fk_doctor_person1_idx` ON `cpsc332_db_project`.`doctor` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `doctor_id_UNIQUE` ON `cpsc332_db_project`.`doctor` (`doctor_id` ASC) VISIBLE;
+CREATE UNIQUE INDEX `doctor_id_UNIQUE` ON `cpsc332_db_project`.`doctor` (`doctor_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `cpsc332_db_project`.`doctor` (`fk_person_id` ASC) VISIBLE;
+CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `cpsc332_db_project`.`doctor` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -105,13 +105,13 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`patient` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_patient_person1_idx` ON `cpsc332_db_project`.`patient` (`fk_person_id` ASC) VISIBLE;
+CREATE INDEX `fk_patient_person1_idx` ON `cpsc332_db_project`.`patient` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `cpsc332_db_project`.`patient` (`fk_person_id` ASC) VISIBLE;
+CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `cpsc332_db_project`.`patient` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `patient_id_UNIQUE` ON `cpsc332_db_project`.`patient` (`patient_id` ASC) VISIBLE;
+CREATE UNIQUE INDEX `patient_id_UNIQUE` ON `cpsc332_db_project`.`patient` (`patient_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`visit` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_appointment_doctor1_idx` ON `cpsc332_db_project`.`visit` (`fk_doctor_id` ASC) VISIBLE;
+CREATE INDEX `fk_appointment_doctor1_idx` ON `cpsc332_db_project`.`visit` (`fk_doctor_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`specialty` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `spec_id_UNIQUE` ON `cpsc332_db_project`.`specialty` (`spec_id` ASC) VISIBLE;
+CREATE UNIQUE INDEX `spec_id_UNIQUE` ON `cpsc332_db_project`.`specialty` (`spec_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -200,10 +200,10 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`doctor_specialty` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_doctor_has_specialty_specialty1_idx` ON `cpsc332_db_project`.`doctor_specialty` (`fk_spec_id` ASC) VISIBLE;
+CREATE INDEX `fk_doctor_has_specialty_specialty1_idx` ON `cpsc332_db_project`.`doctor_specialty` (`fk_spec_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_doctor_has_specialty_doctor1_idx` ON `cpsc332_db_project`.`doctor_specialty` (`fk_doctor_id` ASC) VISIBLE;
+CREATE INDEX `fk_doctor_has_specialty_doctor1_idx` ON `cpsc332_db_project`.`doctor_specialty` (`fk_doctor_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -247,10 +247,10 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`appointment_test` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_appointment_has_test_test1_idx` ON `cpsc332_db_project`.`appointment_test` (`fk_test_id` ASC) VISIBLE;
+CREATE INDEX `fk_appointment_has_test_test1_idx` ON `cpsc332_db_project`.`appointment_test` (`fk_test_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_appointment_test_appointment1_idx` ON `cpsc332_db_project`.`appointment_test` (`fk_appointment_id` ASC) VISIBLE;
+CREATE INDEX `fk_appointment_test_appointment1_idx` ON `cpsc332_db_project`.`appointment_test` (`fk_appointment_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -277,10 +277,10 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`visit_prescription` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_medicine_has_appointment_appointment1_idx` ON `cpsc332_db_project`.`visit_prescription` (`fk_visit_id` ASC) VISIBLE;
+CREATE INDEX `fk_medicine_has_appointment_appointment1_idx` ON `cpsc332_db_project`.`visit_prescription` (`fk_visit_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_medicine_has_appointment_medicine1_idx` ON `cpsc332_db_project`.`visit_prescription` (`fk_prescription_id` ASC) VISIBLE;
+CREATE INDEX `fk_medicine_has_appointment_medicine1_idx` ON `cpsc332_db_project`.`visit_prescription` (`fk_prescription_id` ASC) ;
 
 SHOW WARNINGS;
 
