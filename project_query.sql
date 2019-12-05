@@ -43,3 +43,14 @@ ON doctor_id = d.fk_doctor_id
 WHERE person_id = fk_person_id; 
 
 
+CREATE VIEW DOCTOR_SPECIALTY_NULL AS
+SELECT first_name, last_name, d.name
+FROM person, doctor 
+LEFT JOIN (SELECT fk_doctor_id, specialty.name
+FROM doctor_specialty, specialty
+WHERE fk_spec_id = spec_id) as d
+ON doctor_id = d.fk_doctor_id
+WHERE person_id = fk_person_id; 
+
+SELECT *
+FROM DOCTOR_SPECIALTY_NULL; 
