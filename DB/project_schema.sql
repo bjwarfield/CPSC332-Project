@@ -287,3 +287,55 @@ SHOW WARNINGS;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- insert records
+insert into person (person_id, first_name, last_name, phone, street_address, city, state, zip, ssn) values (1, 'Rob', 'Belkin', '310-229-1351', '12 Bowman Lane', 'Inglewood', 'California', 58944, '166-21-0167');
+insert into person (person_id, first_name, last_name, phone, street_address, city, state, zip, ssn) values (2, 'Irvine', 'Abadam', '215-154-7171', '65 Commercial Terrace', 'Philadelphia', 'Pennsylvania', 77869, '559-08-1691');
+insert into person (person_id, first_name, last_name, phone, street_address, city, state, zip, ssn) values (3, 'Ebony', 'Geater', '718-392-3551', '932 Birchwood Court', 'Brooklyn', 'New York', 99654, '600-75-7774');
+insert into person (person_id, first_name, last_name, phone, street_address, city, state, zip, ssn) values (4, 'Minta', 'Cloy', '208-509-1004', '64299 Westport Lane', 'Boise', 'Idaho', 35656, '411-41-0304');
+insert into person (person_id, first_name, last_name, phone, street_address, city, state, zip, ssn) values (5, 'Leonhard', 'Hodge', '432-626-6088', '0 Crowley Park', 'Odessa', 'Texas', 38962, '502-64-8693');
+insert into person (person_id, first_name, last_name, phone, street_address, city, state, zip, ssn) values (6, 'Tabb', 'Chipchase', '612-929-9531', '6346 Holmberg Terrace', 'Minneapolis', 'Minnesota', 21020, '255-78-9062');
+
+insert into doctor (doctor_id, fk_person_id, medial_degree) values ('RB1111',1,'UCLA');
+insert into doctor (doctor_id, fk_person_id, medial_degree) values ('IA2222',2,'USC');
+insert into doctor (doctor_id, fk_person_id, medial_degree) values ('EG3333',3,'UCLA');
+
+insert into patient(patient_id, fk_person_id, DOB) values (11,4,'1986-12-17');
+insert into patient(patient_id, fk_person_id, DOB) values (12,5,'1969-07-02');
+insert into patient(patient_id, fk_person_id, DOB) values (13,6,'1989-11-13');
+insert into patient(patient_id, fk_person_id, DOB) values (14,2,'1970-04-20');
+
+insert into prescription(prescription_id, name) values (21,'Panadol');
+insert into prescription(prescription_id, name) values (22,'Xadril');
+insert into prescription(prescription_id, name) values (23,'Dapins');
+
+insert into visit(visit_id,fk_patient_id,fk_doctor_id,date,room,doc_note) values (31,11,'RB1111','2019-12-02','101','Coughing');
+insert into visit(visit_id,fk_patient_id,fk_doctor_id,date,room,doc_note) values (32,12,'IA2222','2019-12-02','102','Sneezing');
+insert into visit(visit_id,fk_patient_id,fk_doctor_id,date,room,doc_note) values (33,13,'EG3333','2019-12-01','103','Bleeding');
+insert into visit(visit_id,fk_patient_id,fk_doctor_id,date,room,doc_note) values (34,14,'RB1111','2019-12-02','101','Ear infection');
+
+insert into test(test_id,name) values (41,'Blood');
+insert into test(test_id,name) values (42,'Physical');
+insert into test(test_id,name) values (43,'X-Ray');
+
+insert into specialty(spec_id,name) values (51,'Anesthesiology');
+insert into specialty(spec_id,name) values (52,'Dermatology');
+insert into specialty(spec_id,name) values (53,'Otolaryngology');
+
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',51);
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',52);
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('IA2222',53);
+
+insert into appointment_test(fk_test_id,fk_appointment_id) values (41,31);
+insert into appointment_test(fk_test_id,fk_appointment_id) values (42,31);
+insert into appointment_test(fk_test_id,fk_appointment_id) values (41,32);
+insert into appointment_test(fk_test_id,fk_appointment_id) values (43,32);
+insert into appointment_test(fk_test_id,fk_appointment_id) values (41,33);
+insert into appointment_test(fk_test_id,fk_appointment_id) values (41,34);
+
+insert into visit_prescription(fk_visit_id,fk_prescription_id) values (31,21);
+insert into visit_prescription(fk_visit_id,fk_prescription_id) values (32,22);
+insert into visit_prescription(fk_visit_id,fk_prescription_id) values (33,23);
+insert into visit_prescription(fk_visit_id,fk_prescription_id) values (34,21);
+insert into visit_prescription(fk_visit_id,fk_prescription_id) values (34,22);
+insert into visit_prescription(fk_visit_id,fk_prescription_id) values (34,23);
