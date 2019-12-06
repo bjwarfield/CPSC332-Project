@@ -391,6 +391,62 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- generate doctor_specialty table based on existing doctors and specialties 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `generateSpecialties`(
+IN _num int
+)
+BEGIN
+  DECLARE _i INT DEFAULT 0;
+    WHILE _i < _num DO
+    INSERT INTO doctor_specialty(fk_doctor_id,fk_spec_id) 
+    VALUES (
+      (SELECT doctor_id FROM doctor ORDER BY RAND() LIMIT 1),
+      (SELECT spec_id FROM specialty ORDER BY RAND() LIMIT 1)
+    );
+    SET _i = _i +1;
+    END WHILE;
+END$$
+DELIMITER ;
+
+
+-- generate appointment tests based on visits and tests 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `generateAppointmentTests`(
+IN _num int
+)
+BEGIN
+  DECLARE _i INT DEFAULT 0;
+    WHILE _i < _num DO
+    INSERT INTO appointmentTest(fk_test_id,fk_appointment_id) 
+    VALUES (
+      (SELECT test_id FROM test ORDER BY RAND() LIMIT 1),
+      (SELECT visit_id FROM visit ORDER BY RAND() LIMIT 1)
+    );
+    SET _i = _i +1;
+    END WHILE;
+END$$
+DELIMITER ;
+
+-- generate appointment tests based on visits and medicine 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `generatePescriptions`(
+IN _num int
+)
+BEGIN
+  DECLARE _i INT DEFAULT 0;
+    WHILE _i < _num DO
+    INSERT INTO visit_prescription(fk_visit_id,fk_prescription_id) 
+    VALUES (
+      (SELECT visit_id FROM visit ORDER BY RAND() LIMIT 1),
+      (SELECT prescription_id FROM prescription ORDER BY RAND() LIMIT 1)
+    );
+    SET _i = _i +1;
+    END WHILE;
+END$$
+DELIMITER ;
+
+
 
 
 -- ---------------------------
@@ -762,23 +818,11 @@ insert into specialty(name) values ('Radiology');
 insert into specialty(name) values ('Evil Radiology');
 
 -- !TODO Doctors cannot be their own patients.
-call cpsc332_db_project.generateVisits(300);  
+call cpsc332_db_project.generateVisits(300); 
+call cpsc332_db_project.generatePescriptions(150);
+call cpsc332_db_project.generateAppointmentTests(150);
 
 
--- !TODO Genertate Doctor Specialties
-insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',51);
-insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',52);
-insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('IA2222',53);
-update doctor_specialty set fk_spec_id = 51 where fk_doctor_id = 'IA2222' and fk_spec_id = 53;
-update doctor_specialty set fk_spec_id = 53 where fk_doctor_id = 'RB1111' and fk_spec_id = 51;
-
--- !TODO Genertate Appointment Tests
--- insert into appointment_test(fk_test_id,fk_appointment_id) values (41,31);
--- insert into appointment_test(fk_test_id,fk_appointment_id) values (42,31);
--- insert into appointment_test(fk_test_id,fk_appointment_id) values (41,32);
--- insert into appointment_test(fk_test_id,fk_appointment_id) values (43,32);
--- insert into appointment_test(fk_test_id,fk_appointment_id) values (41,33);
--- insert into appointment_test(fk_test_id,fk_appointment_id) values (41,34);
 
 -- !TODO Genertate Appointment Presctiptions
 -- insert into visit_prescription(fk_visit_id,fk_prescription_id) values (31,21);
