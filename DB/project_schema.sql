@@ -169,6 +169,26 @@ ENGINE = InnoDB;
 ALTER TABLE `cpsc332_db_project`.`test` AUTO_INCREMENT=1000; 
 SHOW WARNINGS;
 
+CREATE TRIGGER ADDED
+AFTER INSERT
+ON doctor_specialty
+FOR EACH ROW
+INSERT INTO specialty_audit (doctor_name, specialty, action, date_of_modification)
+SELECT DISTINCT concat(person.first_name, " ", person.last_name), specialty.name, "added", NOW()
+FROM person, doctor, doctor_specialty, specialty
+WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
+	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
+
+CREATE TRIGGER UPDATED
+AFTER UPDATE
+ON doctor_specialty
+FOR EACH ROW
+INSERT INTO specialty_audit (doctor_name, specialty, action, date_of_modification)
+SELECT concat(person.first_name, " ", person.last_name), specialty.name, "updated", NOW()
+FROM person, doctor, doctor_specialty, specialty
+WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
+	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
+
 -- -----------------------------------------------------
 -- Table `cpsc332_db_project`.`specialty`
 -- -----------------------------------------------------
@@ -743,9 +763,11 @@ call cpsc332_db_project.generateVisits(300);
 
 
 -- !TODO Genertate Doctor Specialties
--- insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',51);
--- insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',52);
--- insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('IA2222',53);
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',51);
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('RB1111',52);
+insert into doctor_specialty(fk_doctor_id, fk_spec_id) values ('IA2222',53);
+update doctor_specialty set fk_spec_id = 51 where fk_doctor_id = 'IA2222' and fk_spec_id = 53;
+update doctor_specialty set fk_spec_id = 53 where fk_doctor_id = 'RB1111' and fk_spec_id = 51;
 
 -- !TODO Genertate Appointment Tests
 -- insert into appointment_test(fk_test_id,fk_appointment_id) values (41,31);
