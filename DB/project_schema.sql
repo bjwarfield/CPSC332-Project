@@ -214,14 +214,14 @@ DROP TABLE IF EXISTS `cpsc332_db_project`.`specialty_audit` ;
 
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`specialty_audit` (
-  `audit_id` INT NOT NULL,
+  `audit_id` INT NOT NULL AUTO_INCREMENT,
   `doctor_name` VARCHAR(45) NULL,
   `action` ENUM("updated", "added") NULL,
   `specialty` VARCHAR(45) NULL,
   `date_of_modificaiton` DATETIME NULL,
   PRIMARY KEY (`audit_id`))
 ENGINE = InnoDB;
-
+ALTER TABLE `cpsc332_db_project`.`specialty_audit` AUTO_INCREMENT=1000; 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
