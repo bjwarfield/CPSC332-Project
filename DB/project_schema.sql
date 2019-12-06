@@ -169,26 +169,6 @@ ENGINE = InnoDB;
 ALTER TABLE `cpsc332_db_project`.`test` AUTO_INCREMENT=1000; 
 SHOW WARNINGS;
 
-CREATE TRIGGER ADDED
-AFTER INSERT
-ON doctor_specialty
-FOR EACH ROW
-INSERT INTO specialty_audit (doctor_name, specialty, action, date_of_modification)
-SELECT DISTINCT concat(person.first_name, " ", person.last_name), specialty.name, "added", NOW()
-FROM person, doctor, doctor_specialty, specialty
-WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
-	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
-
-CREATE TRIGGER UPDATED
-AFTER UPDATE
-ON doctor_specialty
-FOR EACH ROW
-INSERT INTO specialty_audit (doctor_name, specialty, action, date_of_modification)
-SELECT concat(person.first_name, " ", person.last_name), specialty.name, "updated", NOW()
-FROM person, doctor, doctor_specialty, specialty
-WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
-	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
-
 -- -----------------------------------------------------
 -- Table `cpsc332_db_project`.`specialty`
 -- -----------------------------------------------------
@@ -247,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`specialty_audit` (
   `doctor_name` VARCHAR(45) NULL,
   `action` ENUM("updated", "added") NULL,
   `specialty` VARCHAR(45) NULL,
-  `date_of_modificaiton` DATETIME NULL,
+  `date_of_modification` DATETIME NULL,
   PRIMARY KEY (`audit_id`))
 ENGINE = InnoDB;
 ALTER TABLE `cpsc332_db_project`.`specialty_audit` AUTO_INCREMENT=1000; 
@@ -312,6 +292,29 @@ SHOW WARNINGS;
 CREATE INDEX `fk_medicine_has_appointment_medicine1_idx` ON `cpsc332_db_project`.`visit_prescription` (`fk_prescription_id` ASC) ;
 
 SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Triggers
+-- -----------------------------------------------------
+CREATE TRIGGER ADDED
+AFTER INSERT
+ON doctor_specialty
+FOR EACH ROW
+INSERT INTO specialty_audit (doctor_name, specialty, action, date_of_modification)
+SELECT DISTINCT concat(person.first_name, " ", person.last_name), specialty.name, "added", NOW()
+FROM person, doctor, doctor_specialty, specialty
+WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
+	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
+
+CREATE TRIGGER UPDATED
+AFTER UPDATE
+ON doctor_specialty
+FOR EACH ROW
+INSERT INTO specialty_audit (doctor_name, specialty, action, date_of_modification)
+SELECT concat(person.first_name, " ", person.last_name), specialty.name, "updated", NOW()
+FROM person, doctor, doctor_specialty, specialty
+WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
+	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
