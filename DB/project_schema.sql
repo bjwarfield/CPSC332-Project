@@ -135,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`visit` (
   `room` VARCHAR(45) NOT NULL,
   `doc_note` TEXT(256) NULL,
   PRIMARY KEY (`visit_id`),
+  UNIQUE (fk_patient_id, fk_doctor_id, date),
   CONSTRAINT `fk_appointment_patient1`
     FOREIGN KEY (`fk_patient_id`)
     REFERENCES `cpsc332_db_project`.`patient` (`patient_id`)
@@ -296,6 +297,7 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 -- Triggers
 -- -----------------------------------------------------
+DROP TRIGGER IF EXISTS specialty_added_trigger;
 CREATE TRIGGER specialty_added_trigger
 AFTER INSERT
 ON doctor_specialty
@@ -306,6 +308,7 @@ FROM person, doctor, doctor_specialty, specialty
 WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
 	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
 
+DROP TRIGGER IF EXISTS specialty_updated_trigger;
 CREATE TRIGGER specialty_updated_trigger
 AFTER UPDATE
 ON doctor_specialty
@@ -315,6 +318,22 @@ SELECT concat(person.first_name, " ", person.last_name), specialty.name, "update
 FROM person, doctor, doctor_specialty, specialty
 WHERE doctor_specialty.fk_doctor_id = doctor.doctor_id AND doctor.fk_person_id = person.person_id AND doctor_specialty.fk_spec_id = specialty.spec_id
 	  AND doctor_specialty.fk_doctor_id = NEW.fk_doctor_id AND doctor_specialty.fk_spec_id = NEW.fk_spec_id;
+
+DROP TRIGGER IF EXISTS visit_conditions;
+DELIMITER $$
+CREATE TRIGGER visit_conditions
+BEFORE INSERT
+ON visit
+FOR EACH ROW
+BEGIN
+  DECLARE _DID INT DEFAULT (SELECT doctor.fk_person_id FROM doctor WHERE doctor.doctor_id = NEW.fk_doctor_id);
+  DECLARE _PID INT DEFAULT (SELECT patient.fk_person_id FROM patient WHERE patient.patient_id = NEW.fk_patient_id);
+IF  (_DID = _PID)
+THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Doctors cannot be thier own patient';
+END IF;
+END$$
+DELIMITER ;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -378,14 +397,17 @@ IN _num int
 BEGIN
   DECLARE _i INT DEFAULT 0;
     WHILE _i < _num DO
-    INSERT INTO visit(fk_patient_id,fk_doctor_id,date,room,doc_note) 
-    VALUES (
-      (SELECT patient_id FROM patient ORDER BY RAND() LIMIT 1),
-      (SELECT doctor_id FROM doctor ORDER BY RAND() LIMIT 1),
-      (SELECT NOW() - INTERVAL FLOOR(RAND() * 43800) HOUR),
-      FLOOR(RAND() * 200)+100,
+    INSERT IGNORE INTO visit(fk_patient_id,fk_doctor_id,date,room,doc_note) 
+    (SELECT 
+      patient.patient_id, 
+      doctor.doctor_id, 
+      (NOW() - INTERVAL FLOOR(RAND() * 43800) HOUR),
+      FLOOR(RAND() *200)+100,
       ELT(0.5 + RAND() * 8, 'Coughing', 'Sneezing', 'Bleeding', 'Surgery', 'Evil Surgery', 'Infection', 'Amputation', "Cancer")
-    );
+      FROM patient, doctor
+      WHERE patient.fk_person_id != doctor.fk_person_id
+      ORDER BY RAND()
+      LIMIT 1);
     SET _i = _i +1;
     END WHILE;
 END$$
@@ -452,6 +474,7 @@ DELIMITER ;
 -- ---------------------------
 -- insert records
 -- ---------------------------
+call cpsc332_db_project.insertDoctor('Rob', 'Belkin', '310-229-1351', '12 Bowman Lane', 'Fullerton', 'California', '58944', '166-21-0167', '12/25/1975', 'Doctor of Philosophy');
 call cpsc332_db_project.insertPatient('Vanya', 'O'' Byrne', '331-663-4013', '8600 Dakota Lane', 'Boise', 'Idaho', '67306', '509-49-2475', '1/6/1952');
 call cpsc332_db_project.insertPatient('Ross', 'Bielfelt', '678-946-4578', '9 Harper Road', 'Spring', 'Texas', '24849', '262-58-0820', '12/27/1985');
 call cpsc332_db_project.insertPatient('Morgun', 'Glew', '869-615-6807', '18 Garrison Lane', 'Toledo', 'Ohio', '62611', '203-17-4125', '9/12/1983');
@@ -651,7 +674,6 @@ call cpsc332_db_project.insertPatient('Lorant', 'Pawden', '804-350-9407', '40407
 call cpsc332_db_project.insertPatient('Millisent', 'Rippen', '114-099-8996', '4002 Porter Junction', 'Los Angeles', 'California', '97893', '032-25-8467', '8/29/1972');
 call cpsc332_db_project.insertPatient('Hussein', 'Kunzler', '318-200-6389', '87503 Springs Road', 'Fullerton', 'California', '50913', '005-57-4024', '7/21/1978');
 call cpsc332_db_project.insertDoctor('Tatiana', 'Brooke', '566-417-2615', '194 Fulton Center', 'Scottsdale', 'Arizona', '68377', '665-02-0866', '1/26/1994', 'Doctor of Philosophy');
-call cpsc332_db_project.insertDoctor('Rob', 'Belkin', '310-229-1351', '12 Bowman Lane', 'Fullerton', 'California', '58944', '166-21-0167', '12/25/1975', 'Doctor of Philosophy');
 call cpsc332_db_project.insertPatient('Charisse', 'Mouncher', '535-912-1813', '885 Wayridge Parkway', 'Saint Louis', 'Missouri', '68115', '093-63-3285', '5/22/1985');
 call cpsc332_db_project.insertPatient('Ruben', 'Buie', '741-068-9192', '355 Lyons Point', 'Kansas City', 'Missouri', '70539', '327-54-0727', '9/18/1997');
 call cpsc332_db_project.insertPatient('Bethanne', 'Lawranson', '980-292-4036', '04303 Pepper Wood Street', 'Saint Paul', 'Minnesota', '90992', '626-56-9791', '7/16/1973');
@@ -839,10 +861,12 @@ insert into specialty(name) values ('Otolaryngology');
 insert into specialty(name) values ('Dancing');
 insert into specialty(name) values ('Evil Robots');
 insert into specialty(name) values ('Laser Sharks');
-insert into specialty(name) values ('Doomsday Devices');
+insert into specialty(name) values ('Doomsday Mechanical Engineering');
+insert into specialty(name) values ('Doomsday Medical Engineering');
 insert into specialty(name) values ('Allergies');
 insert into specialty(name) values ('Evil Allergies');
 insert into specialty(name) values ('Groove');
+insert into specialty(name) values ('Slow Jams');
 insert into specialty(name) values ('Forbidden Expiriments');
 insert into specialty(name) values ('Radiology');
 insert into specialty(name) values ('Evil Radiology');
