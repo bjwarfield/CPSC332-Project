@@ -8,24 +8,24 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema cpsc332_db_project
+-- Schema DocOffice
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `cpsc332_db_project` ;
+DROP SCHEMA IF EXISTS `DocOffice` ;
 
 -- -----------------------------------------------------
--- Schema cpsc332_db_project
+-- Schema DocOffice
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `cpsc332_db_project` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+CREATE SCHEMA IF NOT EXISTS `DocOffice` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 SHOW WARNINGS;
-USE `cpsc332_db_project` ;
+USE `DocOffice` ;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`person`
+-- Table `DocOffice`.`person`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`person` ;
+DROP TABLE IF EXISTS `DocOffice`.`person` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`person` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`person` (
   `person_id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NULL,
   `last_name` VARCHAR(45) NULL,
@@ -39,95 +39,95 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`person` (
   PRIMARY KEY (`person_id`))
 ENGINE = InnoDB;
 
-ALTER TABLE `cpsc332_db_project`.`person` AUTO_INCREMENT=1000; 
+ALTER TABLE `DocOffice`.`person` AUTO_INCREMENT=1000; 
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `person_id_UNIQUE` ON `cpsc332_db_project`.`person` (`person_id` ASC) ;
+CREATE UNIQUE INDEX `person_id_UNIQUE` ON `DocOffice`.`person` (`person_id` ASC) ;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`doctor`
+-- Table `DocOffice`.`doctor`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`doctor` ;
+DROP TABLE IF EXISTS `DocOffice`.`doctor` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`doctor` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`doctor` (
   `doctor_id` VARCHAR(10) NOT NULL,
   `fk_person_id` INT NOT NULL,
   `medical_degree` VARCHAR(45) NULL,
   PRIMARY KEY (`doctor_id`),
   CONSTRAINT `fk_doctor_person1`
     FOREIGN KEY (`fk_person_id`)
-    REFERENCES `cpsc332_db_project`.`person` (`person_id`)
+    REFERENCES `DocOffice`.`person` (`person_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_doctor_person1_idx` ON `cpsc332_db_project`.`doctor` (`fk_person_id` ASC) ;
+CREATE INDEX `fk_doctor_person1_idx` ON `DocOffice`.`doctor` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `doctor_id_UNIQUE` ON `cpsc332_db_project`.`doctor` (`doctor_id` ASC) ;
+CREATE UNIQUE INDEX `doctor_id_UNIQUE` ON `DocOffice`.`doctor` (`doctor_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `cpsc332_db_project`.`doctor` (`fk_person_id` ASC) ;
+CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `DocOffice`.`doctor` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`prescription`
+-- Table `DocOffice`.`prescription`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`prescription` ;
+DROP TABLE IF EXISTS `DocOffice`.`prescription` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`prescription` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`prescription` (
   `prescription_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`prescription_id`))
 ENGINE = InnoDB;
 
-ALTER TABLE `cpsc332_db_project`.`prescription` AUTO_INCREMENT=1000; 
+ALTER TABLE `DocOffice`.`prescription` AUTO_INCREMENT=1000; 
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`patient`
+-- Table `DocOffice`.`patient`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`patient` ;
+DROP TABLE IF EXISTS `DocOffice`.`patient` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`patient` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`patient` (
   `patient_id` INT NOT NULL AUTO_INCREMENT,
   `fk_person_id` INT NOT NULL,
   PRIMARY KEY (`patient_id`),
   CONSTRAINT `fk_patient_person`
     FOREIGN KEY (`fk_person_id`)
-    REFERENCES `cpsc332_db_project`.`person` (`person_id`)
+    REFERENCES `DocOffice`.`person` (`person_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-ALTER TABLE `cpsc332_db_project`.`patient` AUTO_INCREMENT=1000; 
+ALTER TABLE `DocOffice`.`patient` AUTO_INCREMENT=1000; 
 
 SHOW WARNINGS;
-CREATE INDEX `fk_patient_person1_idx` ON `cpsc332_db_project`.`patient` (`fk_person_id` ASC) ;
+CREATE INDEX `fk_patient_person1_idx` ON `DocOffice`.`patient` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `cpsc332_db_project`.`patient` (`fk_person_id` ASC) ;
+CREATE UNIQUE INDEX `fk_person_id_UNIQUE` ON `DocOffice`.`patient` (`fk_person_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `patient_id_UNIQUE` ON `cpsc332_db_project`.`patient` (`patient_id` ASC) ;
+CREATE UNIQUE INDEX `patient_id_UNIQUE` ON `DocOffice`.`patient` (`patient_id` ASC) ;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`visit`
+-- Table `DocOffice`.`visit`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`visit` ;
+DROP TABLE IF EXISTS `DocOffice`.`visit` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`visit` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`visit` (
   `visit_id` INT NOT NULL AUTO_INCREMENT,
   `fk_patient_id` INT NOT NULL,
   `fk_doctor_id` VARCHAR(10) NOT NULL,
@@ -138,92 +138,92 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`visit` (
   UNIQUE (fk_patient_id, fk_doctor_id, date),
   CONSTRAINT `fk_appointment_patient1`
     FOREIGN KEY (`fk_patient_id`)
-    REFERENCES `cpsc332_db_project`.`patient` (`patient_id`)
+    REFERENCES `DocOffice`.`patient` (`patient_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_appointment_doctor1`
     FOREIGN KEY (`fk_doctor_id`)
-    REFERENCES `cpsc332_db_project`.`doctor` (`doctor_id`)
+    REFERENCES `DocOffice`.`doctor` (`doctor_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-ALTER TABLE `cpsc332_db_project`.`visit` AUTO_INCREMENT=1000; 
+ALTER TABLE `DocOffice`.`visit` AUTO_INCREMENT=1000; 
 
 SHOW WARNINGS;
-CREATE INDEX `fk_appointment_doctor1_idx` ON `cpsc332_db_project`.`visit` (`fk_doctor_id` ASC) ;
+CREATE INDEX `fk_appointment_doctor1_idx` ON `DocOffice`.`visit` (`fk_doctor_id` ASC) ;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`test`
+-- Table `DocOffice`.`test`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`test` ;
+DROP TABLE IF EXISTS `DocOffice`.`test` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`test` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`test` (
   `test_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`test_id`))
 ENGINE = InnoDB;
 
-ALTER TABLE `cpsc332_db_project`.`test` AUTO_INCREMENT=1000; 
+ALTER TABLE `DocOffice`.`test` AUTO_INCREMENT=1000; 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`specialty`
+-- Table `DocOffice`.`specialty`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`specialty` ;
+DROP TABLE IF EXISTS `DocOffice`.`specialty` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`specialty` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`specialty` (
   `spec_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`spec_id`))
 ENGINE = InnoDB;
-ALTER TABLE `cpsc332_db_project`.`specialty` AUTO_INCREMENT=1000; 
+ALTER TABLE `DocOffice`.`specialty` AUTO_INCREMENT=1000; 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `spec_id_UNIQUE` ON `cpsc332_db_project`.`specialty` (`spec_id` ASC) ;
+CREATE UNIQUE INDEX `spec_id_UNIQUE` ON `DocOffice`.`specialty` (`spec_id` ASC) ;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`doctor_specialty`
+-- Table `DocOffice`.`doctor_specialty`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`doctor_specialty` ;
+DROP TABLE IF EXISTS `DocOffice`.`doctor_specialty` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`doctor_specialty` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`doctor_specialty` (
   `fk_doctor_id` VARCHAR(10) NOT NULL,
   `fk_spec_id` INT NOT NULL,
   PRIMARY KEY (`fk_doctor_id`, `fk_spec_id`),
   CONSTRAINT `fk_doctor_has_specialty_doctor1`
     FOREIGN KEY (`fk_doctor_id`)
-    REFERENCES `cpsc332_db_project`.`doctor` (`doctor_id`)
+    REFERENCES `DocOffice`.`doctor` (`doctor_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_doctor_has_specialty_specialty1`
     FOREIGN KEY (`fk_spec_id`)
-    REFERENCES `cpsc332_db_project`.`specialty` (`spec_id`)
+    REFERENCES `DocOffice`.`specialty` (`spec_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_doctor_has_specialty_specialty1_idx` ON `cpsc332_db_project`.`doctor_specialty` (`fk_spec_id` ASC) ;
+CREATE INDEX `fk_doctor_has_specialty_specialty1_idx` ON `DocOffice`.`doctor_specialty` (`fk_spec_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_doctor_has_specialty_doctor1_idx` ON `cpsc332_db_project`.`doctor_specialty` (`fk_doctor_id` ASC) ;
+CREATE INDEX `fk_doctor_has_specialty_doctor1_idx` ON `DocOffice`.`doctor_specialty` (`fk_doctor_id` ASC) ;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`specialty_audit`
+-- Table `DocOffice`.`specialty_audit`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`specialty_audit` ;
+DROP TABLE IF EXISTS `DocOffice`.`specialty_audit` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`specialty_audit` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`specialty_audit` (
   `audit_id` INT NOT NULL AUTO_INCREMENT,
   `doctor_name` VARCHAR(45) NULL,
   `action` ENUM("updated", "added") NULL,
@@ -231,66 +231,66 @@ CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`specialty_audit` (
   `date_of_modification` DATETIME NULL,
   PRIMARY KEY (`audit_id`))
 ENGINE = InnoDB;
-ALTER TABLE `cpsc332_db_project`.`specialty_audit` AUTO_INCREMENT=1000; 
+ALTER TABLE `DocOffice`.`specialty_audit` AUTO_INCREMENT=1000; 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`appointment_test`
+-- Table `DocOffice`.`appointment_test`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`appointment_test` ;
+DROP TABLE IF EXISTS `DocOffice`.`appointment_test` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`appointment_test` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`appointment_test` (
   `fk_test_id` INT NOT NULL,
   `fk_appointment_id` INT NOT NULL,
   PRIMARY KEY (`fk_test_id`, `fk_appointment_id`),
   CONSTRAINT `fk_appointment_has_test_test1`
     FOREIGN KEY (`fk_test_id`)
-    REFERENCES `cpsc332_db_project`.`test` (`test_id`)
+    REFERENCES `DocOffice`.`test` (`test_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_appointment_test_appointment1`
     FOREIGN KEY (`fk_appointment_id`)
-    REFERENCES `cpsc332_db_project`.`visit` (`visit_id`)
+    REFERENCES `DocOffice`.`visit` (`visit_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_appointment_has_test_test1_idx` ON `cpsc332_db_project`.`appointment_test` (`fk_test_id` ASC) ;
+CREATE INDEX `fk_appointment_has_test_test1_idx` ON `DocOffice`.`appointment_test` (`fk_test_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_appointment_test_appointment1_idx` ON `cpsc332_db_project`.`appointment_test` (`fk_appointment_id` ASC) ;
+CREATE INDEX `fk_appointment_test_appointment1_idx` ON `DocOffice`.`appointment_test` (`fk_appointment_id` ASC) ;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `cpsc332_db_project`.`visit_prescription`
+-- Table `DocOffice`.`visit_prescription`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cpsc332_db_project`.`visit_prescription` ;
+DROP TABLE IF EXISTS `DocOffice`.`visit_prescription` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `cpsc332_db_project`.`visit_prescription` (
+CREATE TABLE IF NOT EXISTS `DocOffice`.`visit_prescription` (
   `fk_visit_id` INT NOT NULL,
   `fk_prescription_id` INT NOT NULL,
   PRIMARY KEY (`fk_visit_id`, `fk_prescription_id`),
   CONSTRAINT `fk_medicine_has_appointment_medicine1`
     FOREIGN KEY (`fk_prescription_id`)
-    REFERENCES `cpsc332_db_project`.`prescription` (`prescription_id`)
+    REFERENCES `DocOffice`.`prescription` (`prescription_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_medicine_has_appointment_appointment1`
     FOREIGN KEY (`fk_visit_id`)
-    REFERENCES `cpsc332_db_project`.`visit` (`visit_id`)
+    REFERENCES `DocOffice`.`visit` (`visit_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_medicine_has_appointment_appointment1_idx` ON `cpsc332_db_project`.`visit_prescription` (`fk_visit_id` ASC) ;
+CREATE INDEX `fk_medicine_has_appointment_appointment1_idx` ON `DocOffice`.`visit_prescription` (`fk_visit_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `fk_medicine_has_appointment_medicine1_idx` ON `cpsc332_db_project`.`visit_prescription` (`fk_prescription_id` ASC) ;
+CREATE INDEX `fk_medicine_has_appointment_medicine1_idx` ON `DocOffice`.`visit_prescription` (`fk_prescription_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -416,7 +416,7 @@ SELECT person.person_id,
     person.ssn,
     person.DOB
 FROM doctor, person 
-WHERE person.person_id = doctor.doctor_id
+WHERE person.person_id = doctor.fk_person_id
 ORDER BY person.last_name, person.first_name;
 
 CREATE VIEW `visit_list` AS
@@ -464,7 +464,7 @@ DELIMITER ;
 
 -- Insert  Patients
 DELIMITER $$
-USE `cpsc332_db_project`$$
+USE `DocOffice`$$
 CREATE PROCEDURE `insertPatient`(
   IN _firstName varchar(45),
   IN _lastName varchar(45),
@@ -650,357 +650,357 @@ DELIMITER ;
 -- ---------------------------
 -- insert records
 -- ---------------------------
-call cpsc332_db_project.insertDoctor('Rob', 'Belkin', '310-229-1351', '12 Bowman Lane', 'Fullerton', 'California', '58944', '166-21-0167', '12/25/1975', 'Doctor of Philosophy');
-call cpsc332_db_project.insertPatient('Vanya', 'O'' Byrne', '331-663-4013', '8600 Dakota Lane', 'Boise', 'Idaho', '67306', '509-49-2475', '1/6/1952');
-call cpsc332_db_project.insertPatient('Ross', 'Bielfelt', '678-946-4578', '9 Harper Road', 'Spring', 'Texas', '24849', '262-58-0820', '12/27/1985');
-call cpsc332_db_project.insertPatient('Morgun', 'Glew', '869-615-6807', '18 Garrison Lane', 'Toledo', 'Ohio', '62611', '203-17-4125', '9/12/1983');
-call cpsc332_db_project.insertPatient('Urbanus', 'O''Doran', '753-255-3684', '3489 Sutteridge Court', 'Amarillo', 'Texas', '37211', '702-20-8328', '5/6/1972');
-call cpsc332_db_project.insertPatient('Haleigh', 'Van Der Hoog', '344-796-2018', '62 Mitchell Road', 'New York City', 'New York', '20521', '702-73-6866', '3/27/1958');
-call cpsc332_db_project.insertPatient('Berget', 'Tommis', '047-271-0228', '29 Alpine Street', 'Fullerton', 'California', '75518', '537-04-5268', '5/13/1973');
-call cpsc332_db_project.insertPatient('Gwendolyn', 'Goodreid', '574-238-4601', '505 Almo Drive', 'New Bedford', 'Massachusetts', '21113', '130-97-7076', '3/22/1994');
-call cpsc332_db_project.insertPatient('Van', 'O''Lahy', '253-103-9283', '61 Schlimgen Alley', 'Burbank', 'California', '64989', '798-04-1950', '10/29/1951');
-call cpsc332_db_project.insertPatient('Kinnie', 'Nevett', '717-212-8754', '4660 Knutson Pass', 'Berkeley', 'California', '81799', '762-80-7887', '8/31/1961');
-call cpsc332_db_project.insertPatient('Benjy', 'Luckie', '736-023-7500', '75007 Vera Point', 'Jacksonville', 'Florida', '83610', '911-47-3148', '5/29/1998');
-call cpsc332_db_project.insertPatient('Kerry', 'Troake', '936-289-8580', '7968 Esch Road', 'Tacoma', 'Washington', '87649', '259-41-7146', '2/3/1998');
-call cpsc332_db_project.insertDoctor('Agnes', 'Handscombe', '295-252-1519', '64 Fulton Court', 'Bridgeport', 'Connecticut', '50786', '031-49-2414', '6/18/1994', 'Doctor of Google It');
-call cpsc332_db_project.insertDoctor('Kirsteni', 'Gonnet', '217-143-5263', '08 Arapahoe Court', 'Irving', 'Texas', '88094', '639-02-0434', '4/12/1987', 'Doctor of Funk');
-call cpsc332_db_project.insertDoctor('Nealy', 'Winfindale', '627-072-4801', '143 Westport Drive', 'Austin', 'Texas', '02080', '600-86-2928', '8/21/1990', 'Doctor of Medicine');
-call cpsc332_db_project.insertDoctor('Garik', 'Winsiowiecki', '708-494-8358', '910 Milwaukee Lane', 'Oklahoma City', 'Oklahoma', '82887', '305-25-6033', '8/17/1975', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Kaja', 'Ferencz', '155-586-0523', '91360 Barby Trail', 'Colorado Springs', 'Colorado', '78167', '052-64-1269', '7/18/1956');
-call cpsc332_db_project.insertPatient('Stuart', 'Bollis', '002-758-8436', '728 Waubesa Lane', 'San Antonio', 'Texas', '09788', '612-43-6928', '1/21/1984');
-call cpsc332_db_project.insertPatient('Clim', 'Kubczak', '645-142-9465', '173 Spaight Hill', 'Sacramento', 'California', '54707', '045-32-0970', '1/2/1984');
-call cpsc332_db_project.insertPatient('Tobit', 'Lenoir', '530-137-1340', '5444 Portage Center', 'Miami', 'Florida', '99311', '061-32-5605', '5/29/2000');
-call cpsc332_db_project.insertPatient('Peri', 'Coller', '562-460-0876', '3 Florence Terrace', 'Richmond', 'California', '85656', '910-94-1728', '5/25/1984');
-call cpsc332_db_project.insertPatient('Marlon', 'Quilty', '502-811-0083', '9 Stang Plaza', 'Minneapolis', 'Minnesota', '55604', '653-95-9135', '5/18/1996');
-call cpsc332_db_project.insertPatient('Vivia', 'Harries', '725-477-8970', '7842 Anniversary Park', 'Kansas City', 'Missouri', '78220', '737-13-0062', '7/11/1982');
-call cpsc332_db_project.insertPatient('Walt', 'Davitt', '215-025-1555', '66 Crowley Alley', 'Johnson City', 'Tennessee', '54968', '440-30-9646', '8/17/1976');
-call cpsc332_db_project.insertPatient('Selle', 'Zukerman', '653-976-4726', '3670 Clarendon Park', 'Hialeah', 'Florida', '28422', '206-78-1474', '2/11/1996');
-call cpsc332_db_project.insertPatient('Archambault', 'Jandak', '377-995-1573', '60 Straubel Street', 'Pensacola', 'Florida', '73703', '945-75-3531', '3/4/1952');
-call cpsc332_db_project.insertPatient('Tailor', 'Mouncey', '980-137-8687', '43334 Hazelcrest Trail', 'Midland', 'Texas', '28551', '111-99-0380', '8/12/1983');
-call cpsc332_db_project.insertPatient('Simone', 'Deroche', '984-148-9891', '10 Butterfield Place', 'Fort Lauderdale', 'Florida', '83816', '297-87-2745', '1/17/1955');
-call cpsc332_db_project.insertPatient('Audie', 'Harriott', '092-930-8959', '10329 Johnson Park', 'Erie', 'Pennsylvania', '60126', '574-35-6225', '9/8/2000');
-call cpsc332_db_project.insertPatient('Hyacinthe', 'Hayller', '925-362-0026', '7306 Heffernan Way', 'Fullerton', 'California', '03350', '884-55-2657', '5/25/1984');
-call cpsc332_db_project.insertPatient('Damita', 'Greggor', '399-511-2572', '33900 Maywood Drive', 'Madison', 'Wisconsin', '21185', '035-51-3178', '7/29/1969');
-call cpsc332_db_project.insertDoctor('Feliks', 'Le Gassick', '416-038-0945', '5 Ohio Lane', 'Los Angeles', 'California', '06379', '564-69-6292', '5/20/1985', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Catherin', 'MacAskie', '034-105-8675', '780 Mayfield Place', 'Philadelphia', 'Pennsylvania', '30024', '450-09-0786', '2/7/1952');
-call cpsc332_db_project.insertPatient('Skye', 'Surgison', '064-790-8133', '982 Badeau Drive', 'Prescott', 'Arizona', '50281', '037-55-4238', '12/8/1977');
-call cpsc332_db_project.insertPatient('Edwina', 'Farlham', '684-833-4599', '50 Warbler Junction', 'Kansas City', 'Missouri', '99101', '290-20-7362', '2/16/1958');
-call cpsc332_db_project.insertPatient('Warren', 'Kardos-Stowe', '215-820-3332', '69698 Dryden Alley', 'Tucson', 'Arizona', '94514', '836-91-5417', '4/18/1998');
-call cpsc332_db_project.insertDoctor('Twila', 'McGoldrick', '947-102-1256', '4434 Mesta Point', 'Greenville', 'South Carolina', '83201', '207-93-4275', '9/14/1996', 'Doctor of Philosophy');
-call cpsc332_db_project.insertDoctor('Bennie', 'Cheke', '937-392-2147', '6070 Redwing Alley', 'Pueblo', 'Colorado', '64555', '169-81-5793', '10/3/1973', 'Doctor of Google It');
-call cpsc332_db_project.insertDoctor('Pearla', 'Denecamp', '123-745-7076', '79 Nancy Lane', 'Miami', 'Florida', '72064', '385-29-6209', '1/31/1969', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Cati', 'Colicot', '644-741-8008', '95777 Farmco Junction', 'Chicago', 'Illinois', '54663', '924-35-2057', '12/20/1962');
-call cpsc332_db_project.insertPatient('Axe', 'McKeighan', '678-679-9490', '14 Aberg Park', 'Mobile', 'Alabama', '92032', '403-16-7870', '1/27/1983');
-call cpsc332_db_project.insertDoctor('Conny', 'Mettericke', '953-720-9500', '2 Caliangt Plaza', 'Long Beach', 'California', '37187', '608-41-5772', '11/28/1969', 'Doctor of Google It');
-call cpsc332_db_project.insertPatient('Reagen', 'Brittin', '898-829-4777', '10755 Merry Hill', 'Fort Worth', 'Texas', '25291', '793-40-0054', '4/2/1970');
-call cpsc332_db_project.insertPatient('Nikkie', 'Murtagh', '435-580-9260', '1780 Bultman Court', 'Minneapolis', 'Minnesota', '26466', '809-50-2293', '12/10/1989');
-call cpsc332_db_project.insertPatient('Davina', 'Peaurt', '696-455-2250', '1 Tennessee Pass', 'Fullerton', 'California', '68187', '541-17-7353', '9/14/1962');
-call cpsc332_db_project.insertPatient('Simon', 'Cowoppe', '661-909-7659', '31 American Center', 'Des Moines', 'Iowa', '45736', '828-55-9350', '2/5/1979');
-call cpsc332_db_project.insertPatient('Terrel', 'Hayton', '035-852-9242', '317 Lindbergh Alley', 'Baltimore', 'Maryland', '28656', '891-68-3430', '5/13/1978');
-call cpsc332_db_project.insertPatient('Innis', 'Bloomer', '729-571-6930', '6 Dryden Pass', 'Temple', 'Texas', '10970', '251-66-3397', '3/6/1961');
-call cpsc332_db_project.insertPatient('Angel', 'Suttaby', '028-821-7088', '7 7th Drive', 'Savannah', 'Georgia', '75077', '571-64-0446', '11/7/1953');
-call cpsc332_db_project.insertDoctor('Amandie', 'Stanton', '602-388-2942', '9 Dorton Trail', 'Washington', 'District of Columbia', '82068', '950-55-0078', '1/12/1964', 'Doctor of Philosophy');
-call cpsc332_db_project.insertPatient('Ase', 'Whiteland', '256-428-3555', '10 Trailsway Parkway', 'Bakersfield', 'California', '69505', '609-97-4637', '4/28/1983');
-call cpsc332_db_project.insertPatient('Nanette', 'Cornell', '032-353-9128', '7 Helena Plaza', 'Brooklyn', 'New York', '33305', '402-53-4308', '8/13/1954');
-call cpsc332_db_project.insertPatient('Fina', 'Barrar', '799-944-7179', '2 Comanche Park', 'Punta Gorda', 'Florida', '83539', '633-57-0946', '5/17/1973');
-call cpsc332_db_project.insertPatient('Gilli', 'Ruskin', '893-763-2561', '473 Loomis Parkway', 'Miami', 'Florida', '55923', '120-21-4463', '11/29/1976');
-call cpsc332_db_project.insertPatient('Mycah', 'Dormand', '873-899-7588', '0 Carey Parkway', 'San Jose', 'California', '34025', '434-55-1990', '12/2/1950');
-call cpsc332_db_project.insertPatient('Gretal', 'Stedell', '804-822-7910', '2414 Saint Paul Way', 'Jersey City', 'New Jersey', '02075', '208-55-3232', '5/6/1992');
-call cpsc332_db_project.insertDoctor('Conroy', 'Hugenin', '312-476-8692', '4557 Gerald Crossing', 'Phoenix', 'Arizona', '54533', '788-19-8638', '12/8/1950', 'Doctor of Philosophy');
-call cpsc332_db_project.insertDoctor('Susanetta', 'Coggles', '476-858-5634', '028 Glendale Trail', 'San Jose', 'California', '62795', '486-18-6112', '6/17/1995', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Clovis', 'Stener', '442-430-1080', '2 Logan Hill', 'Jackson', 'Mississippi', '33917', '837-35-2507', '11/15/1964');
-call cpsc332_db_project.insertPatient('Bethina', 'Ivannikov', '801-298-4280', '0679 Hauk Way', 'Birmingham', 'Alabama', '54288', '960-85-7021', '7/1/1955');
-call cpsc332_db_project.insertPatient('Lazare', 'Eastbrook', '251-648-0959', '6119 Anzinger Point', 'San Francisco', 'California', '86453', '747-36-3812', '12/9/1967');
-call cpsc332_db_project.insertPatient('Bald', 'Hutson', '378-632-8510', '3864 Killdeer Plaza', 'Bradenton', 'Florida', '86753', '973-48-3125', '12/30/1983');
-call cpsc332_db_project.insertPatient('Garrett', 'Fairley', '888-752-3355', '9125 Mifflin Court', 'Macon', 'Georgia', '56279', '804-93-8497', '2/9/1995');
-call cpsc332_db_project.insertPatient('Roshelle', 'Grim', '451-916-2341', '03 Dovetail Avenue', 'Asheville', 'North Carolina', '51075', '405-75-8718', '9/23/1952');
-call cpsc332_db_project.insertPatient('Jake', 'Burdge', '966-883-6873', '36 Delaware Junction', 'Roanoke', 'Virginia', '72819', '536-62-3183', '4/27/1961');
-call cpsc332_db_project.insertPatient('Pamela', 'Scibsey', '551-483-2535', '50577 International Parkway', 'Boston', 'Massachusetts', '25607', '475-43-6160', '9/28/1992');
-call cpsc332_db_project.insertDoctor('Claresta', 'Bennetto', '243-873-8011', '372 Tomscot Point', 'Galveston', 'Texas', '21081', '013-27-6918', '11/7/1995', 'Doctor of Evil Medicine');
-call cpsc332_db_project.insertPatient('Collin', 'Denisyuk', '515-884-4092', '05 North Place', 'Knoxville', 'Tennessee', '46685', '808-09-7195', '1/22/1957');
-call cpsc332_db_project.insertPatient('Ev', 'Franchyonok', '874-425-1864', '78169 Cardinal Point', 'Austin', 'Texas', '63532', '922-71-4354', '3/21/1991');
-call cpsc332_db_project.insertDoctor('Noni', 'Ladds', '320-456-3963', '97 Thierer Court', 'West Palm Beach', 'Florida', '19194', '447-25-4752', '10/19/1961', 'Doctor of Google It');
-call cpsc332_db_project.insertPatient('Cynthie', 'Yukhnin', '918-306-4563', '375 Anniversary Circle', 'Austin', 'Texas', '44515', '362-54-6300', '10/14/1993');
-call cpsc332_db_project.insertPatient('Kerry', 'MacDiarmond', '303-606-8241', '0904 Cambridge Court', 'Tampa', 'Florida', '44156', '482-61-4998', '11/18/1994');
-call cpsc332_db_project.insertPatient('Marwin', 'Terrington', '826-520-4275', '56106 East Court', 'Austin', 'Texas', '31196', '824-79-5456', '4/10/1953');
-call cpsc332_db_project.insertPatient('Celka', 'Eliet', '899-108-4532', '080 Eagan Junction', 'Grand Rapids', 'Michigan', '16847', '836-88-2783', '5/14/1972');
-call cpsc332_db_project.insertDoctor('Farlay', 'de la Tremoille', '980-766-7069', '55507 Donald Street', 'Spokane', 'Washington', '60215', '456-65-2835', '10/20/1965', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Jerad', 'Alsop', '849-491-1427', '79311 Autumn Leaf Way', 'Fort Myers', 'Florida', '78496', '965-96-5164', '9/6/1979');
-call cpsc332_db_project.insertPatient('Imogene', 'Kneath', '046-910-3694', '2 Corben Street', 'Denver', 'Colorado', '24338', '975-76-4126', '2/17/1988');
-call cpsc332_db_project.insertPatient('Alexander', 'Hayle', '532-716-8815', '05 5th Road', 'Birmingham', 'Alabama', '86795', '383-18-1491', '9/28/1964');
-call cpsc332_db_project.insertPatient('Pier', 'Sinnie', '958-669-9710', '0781 Browning Way', 'Chicago', 'Illinois', '32393', '387-89-4736', '10/24/1969');
-call cpsc332_db_project.insertPatient('Carney', 'Shave', '181-618-9399', '940 Melody Pass', 'Albany', 'New York', '85096', '228-52-1687', '5/12/1989');
-call cpsc332_db_project.insertPatient('Ninnetta', 'Cuniam', '927-154-0211', '543 Lunder Center', 'Madison', 'Wisconsin', '80213', '476-06-8630', '2/15/1956');
-call cpsc332_db_project.insertDoctor('Hamil', 'Bristo', '693-598-3114', '09 Grover Lane', 'Mount Vernon', 'New York', '08405', '917-41-4845', '4/22/1984', 'Doctor of Surgery');
-call cpsc332_db_project.insertPatient('Rube', 'Killford', '294-348-3986', '860 Fulton Circle', 'Houston', 'Texas', '30370', '040-27-0957', '10/11/1990');
-call cpsc332_db_project.insertPatient('Jane', 'Shimmings', '682-576-7026', '339 Sachtjen Trail', 'Evansville', 'Indiana', '95584', '865-91-6836', '5/22/1974');
-call cpsc332_db_project.insertPatient('Anet', 'Buckham', '162-367-8715', '146 Armistice Pass', 'Fullerton', 'California', '78799', '476-60-8667', '5/18/1991');
-call cpsc332_db_project.insertPatient('Crawford', 'Alvin', '079-335-7328', '93113 Erie Plaza', 'Milwaukee', 'Wisconsin', '36364', '719-02-7506', '12/19/1964');
-call cpsc332_db_project.insertDoctor('Dudley', 'Britch', '297-078-5345', '97460 Loftsgordon Way', 'New York City', 'New York', '05264', '079-88-6446', '11/11/1981', 'Doctor of Mad Science');
-call cpsc332_db_project.insertPatient('Madelin', 'Dunsire', '701-651-5277', '63 Chive Circle', 'San Antonio', 'Texas', '70170', '091-61-0436', '6/23/1995');
-call cpsc332_db_project.insertPatient('Francis', 'Kelk', '107-121-8392', '02 Esch Lane', 'Washington', 'District of Columbia', '88664', '436-34-4294', '7/2/1965');
-call cpsc332_db_project.insertPatient('Christel', 'MacDunlevy', '909-049-5631', '7496 Haas Lane', 'Woburn', 'Massachusetts', '63274', '134-41-0127', '8/18/1951');
-call cpsc332_db_project.insertPatient('Gregorio', 'Antonoczyk', '197-593-9657', '707 Myrtle Junction', 'Juneau', 'Alaska', '73160', '181-62-3837', '11/3/1955');
-call cpsc332_db_project.insertPatient('Shea', 'McClaurie', '310-384-5875', '9002 Starling Way', 'Topeka', 'Kansas', '27395', '224-90-9584', '5/5/1993');
-call cpsc332_db_project.insertPatient('Irena', 'O''Crevy', '735-906-6543', '53 Straubel Pass', 'Lafayette', 'Louisiana', '83316', '867-21-9737', '5/26/1960');
-call cpsc332_db_project.insertPatient('Lorrayne', 'Wyllcock', '966-775-6952', '9 Vera Trail', 'Hartford', 'Connecticut', '34878', '897-35-8670', '9/7/1970');
-call cpsc332_db_project.insertPatient('Reinald', 'Jacmard', '821-769-8141', '04 Katie Place', 'Montgomery', 'Alabama', '12566', '512-69-8530', '10/23/1980');
-call cpsc332_db_project.insertPatient('Elsbeth', 'Alberti', '295-796-2778', '5031 Buena Vista Junction', 'San Jose', 'California', '32493', '989-71-2126', '7/15/1983');
-call cpsc332_db_project.insertPatient('Jordan', 'Acaster', '127-285-6796', '292 Fisk Center', 'San Diego', 'California', '95906', '169-25-5673', '1/22/1961');
-call cpsc332_db_project.insertDoctor('Jodi', 'Laidler', '701-025-8699', '43 Muir Drive', 'Huntington Beach', 'California', '45199', '377-25-0679', '7/7/1990', 'Doctor of Surgery');
-call cpsc332_db_project.insertPatient('Zondra', 'Drinkeld', '328-564-7725', '263 Messerschmidt Circle', 'Jamaica', 'New York', '55702', '337-40-7699', '7/17/1982');
-call cpsc332_db_project.insertPatient('Sebastien', 'Bru', '510-044-1508', '8859 Maryland Trail', 'Dayton', 'Ohio', '36948', '946-65-6683', '3/30/2000');
-call cpsc332_db_project.insertPatient('Wilmar', 'Delaprelle', '551-909-8928', '06 John Wall Road', 'Lima', 'Ohio', '56869', '839-52-0387', '9/26/1954');
-call cpsc332_db_project.insertPatient('Parnell', 'Hargey', '040-786-4710', '474 Corry Alley', 'Tampa', 'Florida', '70064', '769-40-6380', '5/18/1973');
-call cpsc332_db_project.insertPatient('Joanne', 'Hawlgarth', '238-014-1632', '993 Knutson Road', 'Saint Paul', 'Minnesota', '30846', '013-09-6795', '8/29/1992');
-call cpsc332_db_project.insertPatient('Kaylee', 'Hannis', '074-997-2671', '9847 Manley Avenue', 'Boise', 'Idaho', '34253', '743-99-3827', '1/19/1988');
-call cpsc332_db_project.insertPatient('Lane', 'Clews', '733-599-6937', '51799 Scofield Road', 'Harrisburg', 'Pennsylvania', '29449', '689-65-8917', '2/17/1970');
-call cpsc332_db_project.insertPatient('Hermy', 'Hazeldean', '632-529-0945', '8 Welch Point', 'New York City', 'New York', '49093', '582-52-4558', '1/24/1999');
-call cpsc332_db_project.insertPatient('Jannel', 'Peedell', '533-334-6200', '130 Blaine Crossing', 'Idaho Falls', 'Idaho', '56308', '976-13-2962', '2/11/1970');
-call cpsc332_db_project.insertPatient('Tibold', 'Hallitt', '308-770-6237', '59687 Carberry Road', 'Topeka', 'Kansas', '67143', '682-07-5556', '6/28/1957');
-call cpsc332_db_project.insertPatient('Enrique', 'McNab', '095-346-8409', '9 Johnson Plaza', 'Pensacola', 'Florida', '37726', '597-17-4972', '5/10/1985');
-call cpsc332_db_project.insertPatient('Rani', 'Benet', '173-861-5991', '3921 Nelson Trail', 'Birmingham', 'Alabama', '77216', '002-98-1394', '9/14/1991');
-call cpsc332_db_project.insertPatient('Melva', 'Robatham', '912-222-5365', '073 Corscot Street', 'Huntsville', 'Alabama', '65371', '382-77-4174', '11/18/1985');
-call cpsc332_db_project.insertPatient('Torr', 'Ostick', '570-637-3395', '1866 Westridge Court', 'Charlotte', 'North Carolina', '52500', '603-24-5678', '5/13/1959');
-call cpsc332_db_project.insertDoctor('Grady', 'Presley', '570-242-6868', '43 Sutherland Junction', 'Jamaica', 'New York', '51420', '460-74-9869', '11/11/1980', 'Doctor of Evil Medicine');
-call cpsc332_db_project.insertDoctor('Marina', 'Klemz', '607-793-7399', '70911 Pierstorff Avenue', 'Atlanta', 'Georgia', '82567', '928-46-6600', '1/31/1958', 'Doctor of Google It');
-call cpsc332_db_project.insertPatient('Javier', 'Blaske', '167-940-7264', '341 Heffernan Crossing', 'Long Beach', 'California', '13138', '038-89-7339', '10/28/1981');
-call cpsc332_db_project.insertPatient('Shelbi', 'Van den Velde', '769-871-9372', '8 Shopko Road', 'Austin', 'Texas', '75416', '366-11-5295', '2/12/2000');
-call cpsc332_db_project.insertPatient('Codie', 'Mammatt', '382-746-4744', '5133 Lakewood Gardens Lane', 'Erie', 'Pennsylvania', '10749', '573-73-9704', '9/21/1988');
-call cpsc332_db_project.insertPatient('Brigid', 'Maryman', '957-955-2287', '9 Fisk Street', 'Baltimore', 'Maryland', '72068', '914-19-0771', '7/15/1959');
-call cpsc332_db_project.insertPatient('Ertha', 'Garnham', '292-719-7941', '363 Cody Park', 'Washington', 'District of Columbia', '93584', '873-20-3155', '12/22/1990');
-call cpsc332_db_project.insertPatient('Myer', 'Riccardo', '257-276-4353', '3 Sunbrook Street', 'Washington', 'District of Columbia', '13858', '971-66-3676', '12/16/1970');
-call cpsc332_db_project.insertPatient('Ange', 'Angliss', '138-094-0215', '16474 Roth Court', 'Levittown', 'Pennsylvania', '34934', '640-80-7336', '10/23/1976');
-call cpsc332_db_project.insertPatient('Merrill', 'Saxon', '785-957-8006', '9 Loftsgordon Road', 'Denver', 'Colorado', '60361', '558-26-1419', '1/31/1970');
-call cpsc332_db_project.insertPatient('Willdon', 'Andreini', '917-681-6076', '7999 Sauthoff Alley', 'Mc Keesport', 'Pennsylvania', '50707', '415-75-8569', '5/4/1953');
-call cpsc332_db_project.insertPatient('Ailbert', 'Wagen', '712-467-1607', '9 Lotheville Point', 'Saint Paul', 'Minnesota', '17832', '393-91-7831', '12/19/1957');
-call cpsc332_db_project.insertPatient('Kaila', 'Van Bruggen', '547-984-7863', '517 Kingsford Circle', 'Columbus', 'Ohio', '82745', '694-07-0307', '7/17/1965');
-call cpsc332_db_project.insertPatient('Kayla', 'Crooks', '924-600-1884', '0389 Nelson Avenue', 'Pensacola', 'Florida', '87183', '134-55-8268', '1/31/1996');
-call cpsc332_db_project.insertPatient('Marijo', 'Goldsworthy', '559-764-5272', '2091 Bunting Pass', 'Tulsa', 'Oklahoma', '74157', '196-86-7558', '12/2/1955');
-call cpsc332_db_project.insertPatient('Paolina', 'Bewick', '535-720-4320', '9 Raven Circle', 'Norwalk', 'Connecticut', '50275', '702-43-9356', '8/6/1977');
-call cpsc332_db_project.insertPatient('Ephrayim', 'Drewett', '497-365-7265', '42444 Morrow Trail', 'Denton', 'Texas', '27142', '038-25-4890', '4/15/1977');
-call cpsc332_db_project.insertPatient('Janella', 'Clemson', '651-551-8708', '1 Lukken Crossing', 'Los Angeles', 'California', '92647', '294-70-1088', '3/13/1977');
-call cpsc332_db_project.insertPatient('Garrik', 'Halfacre', '341-627-8291', '3 Center Parkway', 'Sparks', 'Nevada', '76689', '286-77-4422', '6/18/1989');
-call cpsc332_db_project.insertPatient('Shaw', 'Klimushev', '417-695-7470', '85432 Meadow Ridge Crossing', 'Dayton', 'Ohio', '24902', '337-46-0045', '9/26/1998');
-call cpsc332_db_project.insertPatient('Gayelord', 'Cheyenne', '166-425-7087', '1407 Vidon Avenue', 'Gatesville', 'Texas', '63401', '998-34-2164', '3/30/1993');
-call cpsc332_db_project.insertPatient('Nona', 'Elham', '942-933-0402', '98 Ridgeview Parkway', 'Greensboro', 'North Carolina', '45407', '971-96-9218', '1/27/1975');
-call cpsc332_db_project.insertPatient('Zena', 'Boick', '559-326-1762', '57056 Thompson Terrace', 'Washington', 'District of Columbia', '88800', '995-25-2264', '5/28/1989');
-call cpsc332_db_project.insertPatient('Scarlett', 'Chesney', '533-035-2867', '4 New Castle Plaza', 'Lawrenceville', 'Georgia', '80711', '243-06-6399', '3/8/1980');
-call cpsc332_db_project.insertPatient('Donnell', 'Pickup', '095-507-9194', '39010 Lawn Place', 'Atlanta', 'Georgia', '59874', '839-57-4246', '7/15/1987');
-call cpsc332_db_project.insertPatient('Charil', 'McGriele', '810-348-1079', '14 Evergreen Hill', 'Riverside', 'California', '74814', '139-48-0591', '4/19/1974');
-call cpsc332_db_project.insertPatient('Nanci', 'Presley', '858-936-8060', '2614 Logan Junction', 'Cedar Rapids', 'Iowa', '67698', '273-39-1073', '7/30/1985');
-call cpsc332_db_project.insertPatient('Brant', 'Calven', '583-231-2181', '9092 Linden Road', 'Winston Salem', 'North Carolina', '42348', '946-80-7922', '4/24/1959');
-call cpsc332_db_project.insertPatient('Lew', 'Dafforne', '965-874-7224', '7515 Heffernan Junction', 'El Paso', 'Texas', '43590', '283-39-8579', '11/21/1995');
-call cpsc332_db_project.insertPatient('Gisella', 'Fitchet', '492-801-8539', '0 Independence Avenue', 'Memphis', 'Tennessee', '62642', '762-80-7445', '4/24/1978');
-call cpsc332_db_project.insertPatient('Vanessa', 'Buddington', '848-406-5565', '327 Magdeline Court', 'Orlando', 'Florida', '40560', '623-19-1124', '2/3/1980');
-call cpsc332_db_project.insertPatient('Shandeigh', 'Amberg', '728-083-5162', '1742 Loftsgordon Court', 'New York City', 'New York', '87510', '870-77-6986', '1/28/1965');
-call cpsc332_db_project.insertPatient('Cleon', 'McTrustam', '222-053-5554', '21290 Weeping Birch Parkway', 'El Paso', 'Texas', '44164', '994-17-8866', '1/23/1973');
-call cpsc332_db_project.insertDoctor('Silas', 'Lopez', '143-749-6891', '1842 Kipling Court', 'Lexington', 'Kentucky', '41044', '185-08-4816', '3/17/1952', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Tully', 'Josse', '553-335-9974', '534 Prairie Rose Drive', 'New York City', 'New York', '81215', '165-34-8748', '12/16/1990');
-call cpsc332_db_project.insertPatient('Maribel', 'Bourthoumieux', '783-304-6403', '88196 Miller Plaza', 'El Paso', 'Texas', '18543', '430-14-2360', '7/28/2000');
-call cpsc332_db_project.insertDoctor('Tildy', 'Rozier', '868-860-7207', '5 Rutledge Park', 'Sandy', 'Utah', '01826', '572-46-1268', '8/27/1998', 'Doctor of Google It');
-call cpsc332_db_project.insertPatient('Nelson', 'Rentelll', '506-042-8246', '73 Carpenter Place', 'Trenton', 'New Jersey', '69517', '795-23-9056', '12/11/1985');
-call cpsc332_db_project.insertDoctor('Marietta', 'Reignould', '738-650-9867', '87 Mitchell Hill', 'Columbus', 'Ohio', '67116', '939-47-9205', '12/26/1954', 'Doctor of Surgery');
-call cpsc332_db_project.insertPatient('Edith', 'Simmers', '898-350-4786', '305 Nova Street', 'Tampa', 'Florida', '76098', '443-97-2444', '9/29/1963');
-call cpsc332_db_project.insertPatient('Ainslee', 'Caddies', '544-923-6599', '6 Oak Valley Park', 'Metairie', 'Louisiana', '76403', '211-32-2535', '5/2/1992');
-call cpsc332_db_project.insertPatient('Nichole', 'Scopham', '805-141-2272', '22609 Novick Street', 'Tulsa', 'Oklahoma', '24000', '357-42-2544', '2/10/1959');
-call cpsc332_db_project.insertPatient('Bar', 'Haack', '234-805-4831', '9374 Village Crossing', 'Greensboro', 'North Carolina', '39608', '469-58-8374', '7/22/1954');
-call cpsc332_db_project.insertPatient('Montague', 'Bertome', '333-069-1198', '6 2nd Center', 'Long Beach', 'California', '82622', '999-39-2972', '3/24/1981');
-call cpsc332_db_project.insertPatient('Gardiner', 'Armin', '411-090-5223', '91918 Dahle Court', 'Aurora', 'Colorado', '93403', '885-11-1422', '1/6/1952');
-call cpsc332_db_project.insertPatient('Larina', 'Castaneda', '658-573-0300', '90 Basil Lane', 'Norfolk', 'Virginia', '86396', '737-33-4264', '6/14/1971');
-call cpsc332_db_project.insertPatient('Vonny', 'Welberry', '508-261-9619', '767 Surrey Point', 'Sacramento', 'California', '35538', '643-81-6426', '4/12/1979');
-call cpsc332_db_project.insertPatient('Marcus', 'Gateshill', '802-546-7989', '62384 American Ash Center', 'Midland', 'Michigan', '99204', '930-07-3170', '6/9/1993');
-call cpsc332_db_project.insertPatient('Eustace', 'Faltskog', '176-439-0208', '26 Continental Lane', 'Abilene', 'Texas', '28030', '326-20-2714', '4/29/1980');
-call cpsc332_db_project.insertPatient('Shayla', 'Tieman', '108-833-3686', '8938 Dixon Junction', 'Cape Coral', 'Florida', '92202', '937-89-2853', '5/10/1962');
-call cpsc332_db_project.insertDoctor('Caryn', 'Van der Beken', '193-948-8803', '2 Harper Way', 'Flint', 'Michigan', '44331', '463-49-8203', '4/26/1966', 'Doctor of Philosophy');
-call cpsc332_db_project.insertPatient('Ky', 'Skurm', '389-396-0351', '53 Jana Place', 'Richmond', 'Virginia', '80088', '952-84-7832', '3/12/1965');
-call cpsc332_db_project.insertPatient('Roshelle', 'Kindle', '756-912-2483', '95041 Merchant Circle', 'Virginia Beach', 'Virginia', '10928', '707-37-0682', '6/25/1954');
-call cpsc332_db_project.insertPatient('Ferrell', 'Brame', '858-131-8918', '456 Algoma Court', 'Columbus', 'Mississippi', '74742', '327-62-9898', '4/14/1990');
-call cpsc332_db_project.insertPatient('Israel', 'Lamburn', '186-168-5076', '995 Namekagon Place', 'Aiken', 'South Carolina', '28844', '276-14-5314', '4/21/1957');
-call cpsc332_db_project.insertPatient('Bronson', 'Deverock', '722-139-8912', '3 Spenser Parkway', 'Evanston', 'Illinois', '61479', '133-18-8590', '5/2/1956');
-call cpsc332_db_project.insertPatient('Mathilde', 'Hinkley', '399-515-5583', '4301 Pleasure Point', 'Peoria', 'Illinois', '41057', '501-66-3087', '2/23/1991');
-call cpsc332_db_project.insertPatient('Kristoffer', 'Speers', '333-986-2498', '04 Rutledge Court', 'Anderson', 'Indiana', '35988', '320-72-6840', '1/4/1990');
-call cpsc332_db_project.insertPatient('Morganica', 'Pridgeon', '677-273-1260', '3 Dapin Junction', 'Fullerton', 'California', '92021', '570-99-6047', '5/16/1962');
-call cpsc332_db_project.insertPatient('Michaeline', 'Wileman', '628-978-4043', '85 Anniversary Terrace', 'Indianapolis', 'Indiana', '94068', '172-04-8506', '1/17/1998');
-call cpsc332_db_project.insertPatient('Kelwin', 'Guyton', '624-066-2369', '5621 Monterey Hill', 'Honolulu', 'Hawaii', '07322', '107-12-8864', '3/20/1979');
-call cpsc332_db_project.insertPatient('Jessi', 'But', '503-856-1212', '5 Cardinal Way', 'Boston', 'Massachusetts', '07559', '926-09-2698', '6/25/1988');
-call cpsc332_db_project.insertDoctor('Kristian', 'Rankin', '874-700-5692', '8831 Del Mar Trail', 'Little Rock', 'Arkansas', '61321', '718-39-3551', '7/17/1974', 'Doctor of Mad Science');
-call cpsc332_db_project.insertPatient('Carol', 'Duncan', '637-919-0184', '5379 Evergreen Pass', 'Wichita Falls', 'Texas', '24749', '928-36-1447', '3/25/1983');
-call cpsc332_db_project.insertPatient('Paule', 'Christal', '620-411-8286', '1557 Drewry Alley', 'Phoenix', 'Arizona', '32288', '327-83-2742', '4/10/1973');
-call cpsc332_db_project.insertDoctor('Maxie', 'Muge', '305-922-5413', '133 Evergreen Park', 'Lansing', 'Michigan', '32231', '848-66-3150', '5/18/1952', 'Doctor of Surgery');
-call cpsc332_db_project.insertDoctor('Grover', 'McElwee', '903-405-5312', '1 Crest Line Terrace', 'Minneapolis', 'Minnesota', '69111', '231-11-2967', '7/22/1998', 'Doctor of Mad Science');
-call cpsc332_db_project.insertPatient('Irwinn', 'Renner', '749-969-2099', '87 Main Trail', 'Philadelphia', 'Pennsylvania', '70805', '828-81-9475', '11/10/2000');
-call cpsc332_db_project.insertPatient('Charlena', 'Beebee', '265-423-2953', '34363 Hoepker Alley', 'San Antonio', 'Texas', '83837', '984-56-4594', '7/4/1978');
-call cpsc332_db_project.insertPatient('Min', 'Kleinplac', '258-842-7648', '246 International Junction', 'Carson City', 'Nevada', '41271', '426-30-3978', '9/13/1986');
-call cpsc332_db_project.insertPatient('Francis', 'Whiteson', '729-133-0642', '969 Waxwing Center', 'Carol Stream', 'Illinois', '09713', '224-52-1493', '4/8/1972');
-call cpsc332_db_project.insertDoctor('Hendrick', 'Cassin', '773-521-1790', '37932 Sutteridge Trail', 'San Francisco', 'California', '35920', '768-03-4444', '8/20/1976', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Freeman', 'Desbrow', '273-008-0284', '763 South Street', 'Fresno', 'California', '78145', '376-97-4805', '4/30/1999');
-call cpsc332_db_project.insertPatient('Lothaire', 'Fashion', '962-838-4938', '98 Manley Plaza', 'Arlington', 'Virginia', '93896', '792-51-6945', '6/14/1997');
-call cpsc332_db_project.insertPatient('Dodie', 'Ties', '671-133-0196', '5 Kim Center', 'Dearborn', 'Michigan', '01613', '664-44-2546', '7/22/1966');
-call cpsc332_db_project.insertPatient('Gabriele', 'Ladson', '189-498-7440', '90537 Green Ridge Point', 'Louisville', 'Kentucky', '97710', '143-24-9889', '7/18/1972');
-call cpsc332_db_project.insertPatient('Brockie', 'McCrossan', '143-755-2647', '7195 Glacier Hill Pass', 'Bridgeport', 'Connecticut', '32439', '294-93-3470', '10/22/1996');
-call cpsc332_db_project.insertPatient('Angel', 'Wickey', '684-659-3640', '4572 Anniversary Drive', 'Austin', 'Texas', '06377', '325-45-1063', '7/14/1975');
-call cpsc332_db_project.insertPatient('Arney', 'Creaser', '372-561-5042', '74 Buena Vista Place', 'Flint', 'Michigan', '46154', '813-15-6902', '9/1/1996');
-call cpsc332_db_project.insertPatient('Cassandre', 'McIlvaney', '027-136-9477', '29 Menomonie Parkway', 'El Paso', 'Texas', '11242', '456-04-3160', '7/19/1990');
-call cpsc332_db_project.insertPatient('Murielle', 'Posner', '855-986-1425', '042 Westend Lane', 'Tucson', 'Arizona', '35050', '724-38-1381', '9/1/1975');
-call cpsc332_db_project.insertPatient('Mindy', 'Lawes', '637-390-8435', '07955 Eliot Hill', 'Portsmouth', 'Virginia', '45036', '219-64-1340', '10/20/1989');
-call cpsc332_db_project.insertPatient('Sal', 'Janusz', '214-910-5581', '3050 Nelson Circle', 'Flint', 'Michigan', '94099', '380-83-7184', '7/1/1953');
-call cpsc332_db_project.insertPatient('Lynnell', 'Ilchenko', '882-350-4529', '596 Moose Alley', 'Muncie', 'Indiana', '52211', '187-51-2582', '11/22/1967');
-call cpsc332_db_project.insertPatient('Lorant', 'Pawden', '804-350-9407', '40407 Ludington Terrace', 'Rochester', 'New York', '98386', '268-55-4948', '2/19/1959');
-call cpsc332_db_project.insertPatient('Millisent', 'Rippen', '114-099-8996', '4002 Porter Junction', 'Los Angeles', 'California', '97893', '032-25-8467', '8/29/1972');
-call cpsc332_db_project.insertPatient('Hussein', 'Kunzler', '318-200-6389', '87503 Springs Road', 'Fullerton', 'California', '50913', '005-57-4024', '7/21/1978');
-call cpsc332_db_project.insertDoctor('Tatiana', 'Brooke', '566-417-2615', '194 Fulton Center', 'Scottsdale', 'Arizona', '68377', '665-02-0866', '1/26/1994', 'Doctor of Philosophy');
-call cpsc332_db_project.insertPatient('Charisse', 'Mouncher', '535-912-1813', '885 Wayridge Parkway', 'Saint Louis', 'Missouri', '68115', '093-63-3285', '5/22/1985');
-call cpsc332_db_project.insertPatient('Ruben', 'Buie', '741-068-9192', '355 Lyons Point', 'Kansas City', 'Missouri', '70539', '327-54-0727', '9/18/1997');
-call cpsc332_db_project.insertPatient('Bethanne', 'Lawranson', '980-292-4036', '04303 Pepper Wood Street', 'Saint Paul', 'Minnesota', '90992', '626-56-9791', '7/16/1973');
-call cpsc332_db_project.insertPatient('Sergei', 'Zmitrovich', '740-869-5409', '3616 Amoth Drive', 'Montgomery', 'Alabama', '37683', '388-11-1422', '2/25/1969');
-call cpsc332_db_project.insertPatient('Audrye', 'MacTrustrie', '456-716-6957', '28805 5th Junction', 'San Antonio', 'Texas', '82005', '623-11-0792', '12/13/1988');
-call cpsc332_db_project.insertPatient('Elane', 'Coke', '117-127-4040', '44 Blue Bill Park Trail', 'Phoenix', 'Arizona', '96640', '120-52-2659', '7/9/1962');
-call cpsc332_db_project.insertPatient('Damian', 'Greed', '999-640-4580', '15 Arrowood Junction', 'Huntington Beach', 'California', '83730', '151-75-4514', '8/2/1978');
-call cpsc332_db_project.insertPatient('Margret', 'Gallanders', '638-692-0482', '5 Waxwing Street', 'Houston', 'Texas', '59596', '892-26-5762', '5/6/1968');
-call cpsc332_db_project.insertDoctor('Itch', 'Sebley', '463-497-7721', '1 Morrow Circle', 'Seattle', 'Washington', '03335', '647-78-3945', '3/19/1991', 'Doctor of Medicine');
-call cpsc332_db_project.insertDoctor('Wallis', 'Brazener', '913-287-3980', '8 Starling Center', 'Washington', 'District of Columbia', '45571', '519-05-9293', '8/2/1955', 'Doctor of Evil Medicine');
-call cpsc332_db_project.insertPatient('Silvano', 'Vorley', '571-522-1601', '1 Upham Way', 'North Las Vegas', 'Nevada', '13491', '510-56-4572', '9/23/1988');
-call cpsc332_db_project.insertPatient('Benedikt', 'Janosevic', '343-187-2453', '17 Fairfield Junction', 'Jersey City', 'New Jersey', '36473', '697-64-9918', '4/9/1958');
-call cpsc332_db_project.insertDoctor('Selle', 'Tzuker', '955-806-4919', '916 Katie Trail', 'Los Angeles', 'California', '69550', '091-84-9941', '7/7/1955', 'Doctor of Mad Science');
-call cpsc332_db_project.insertPatient('Steffane', 'Maggiori', '107-871-5569', '02784 Pine View Hill', 'Savannah', 'Georgia', '80585', '731-74-1116', '9/16/1953');
-call cpsc332_db_project.insertPatient('Suellen', 'McGhee', '503-386-7484', '6 Lyons Court', 'Naperville', 'Illinois', '49119', '016-03-4783', '4/29/1995');
-call cpsc332_db_project.insertPatient('Stacee', 'Adlem', '052-831-2021', '96238 Westerfield Street', 'Washington', 'District of Columbia', '28798', '697-14-7560', '8/10/1987');
-call cpsc332_db_project.insertPatient('Morgana', 'Glyn', '319-494-4817', '1 Lakewood Gardens Place', 'Brooklyn', 'New York', '83169', '806-26-0379', '4/29/1967');
-call cpsc332_db_project.insertPatient('Glendon', 'Scalia', '099-224-6654', '885 Express Terrace', 'Honolulu', 'Hawaii', '35380', '879-72-8617', '9/8/1993');
-call cpsc332_db_project.insertPatient('Lay', 'Cuppitt', '260-953-5162', '55 Pennsylvania Crossing', 'Wichita Falls', 'Texas', '44798', '018-76-7340', '9/15/1958');
-call cpsc332_db_project.insertPatient('Dominik', 'Dobell', '282-547-4519', '80335 Arapahoe Center', 'Kansas City', 'Kansas', '83399', '789-87-0769', '11/4/1969');
-call cpsc332_db_project.insertDoctor('Pollyanna', 'Pilcher', '601-262-6767', '7972 Manufacturers Terrace', 'Oklahoma City', 'Oklahoma', '71170', '565-31-8729', '8/12/1993', 'Doctor of Evil Medicine');
-call cpsc332_db_project.insertDoctor('Jehu', 'Garnson', '735-645-3976', '59 Pepper Wood Lane', 'Corpus Christi', 'Texas', '33322', '826-89-2555', '2/21/1979', 'Doctor of Evil Medicine');
-call cpsc332_db_project.insertPatient('Joella', 'Keuntje', '589-722-6589', '0930 Glacier Hill Road', 'Stamford', 'Connecticut', '42758', '268-27-2883', '9/9/1999');
-call cpsc332_db_project.insertPatient('Burt', 'Iffe', '431-121-2203', '2466 Florence Terrace', 'Fullerton', 'California', '63583', '895-65-8154', '5/23/1989');
-call cpsc332_db_project.insertPatient('Analise', 'Oneal', '322-482-3866', '68379 Corben Court', 'Pittsburgh', 'Pennsylvania', '12819', '663-63-2804', '5/8/1952');
-call cpsc332_db_project.insertPatient('Thornton', 'Hakking', '451-391-5926', '40065 Nova Court', 'Boca Raton', 'Florida', '97276', '785-82-2542', '5/30/1960');
-call cpsc332_db_project.insertPatient('Lothaire', 'Springall', '448-329-0648', '47140 Marquette Court', 'Lexington', 'Kentucky', '51473', '884-72-7918', '11/17/1959');
-call cpsc332_db_project.insertPatient('Mallissa', 'Matteoni', '555-639-5657', '99102 Everett Place', 'Sacramento', 'California', '88075', '301-37-8814', '12/6/1982');
-call cpsc332_db_project.insertPatient('Miguel', 'Gleadhell', '976-719-2806', '183 Straubel Way', 'Reading', 'Pennsylvania', '26994', '185-07-4112', '2/25/1967');
-call cpsc332_db_project.insertPatient('Frederik', 'Salla', '819-817-1824', '049 Troy Street', 'Kansas City', 'Missouri', '16199', '240-12-6880', '9/20/2000');
-call cpsc332_db_project.insertPatient('Ardelis', 'Hopfer', '652-379-5430', '425 Harbort Center', 'San Mateo', 'California', '37837', '125-98-8189', '1/27/1983');
-call cpsc332_db_project.insertPatient('Fulton', 'Kettridge', '608-861-3564', '3 Hanson Place', 'Buffalo', 'New York', '06652', '707-13-2195', '10/25/1987');
-call cpsc332_db_project.insertPatient('Doretta', 'O'' Dornan', '410-683-7334', '4 Merrick Drive', 'Alhambra', 'California', '94462', '108-78-7846', '12/3/1989');
-call cpsc332_db_project.insertPatient('Thibaut', 'Downes', '347-832-8259', '128 Granby Crossing', 'Louisville', 'Kentucky', '88507', '985-97-1642', '7/8/1953');
-call cpsc332_db_project.insertPatient('Clayborn', 'Romero', '929-464-6024', '0 Upham Parkway', 'Midland', 'Michigan', '40755', '760-05-8946', '11/19/1969');
-call cpsc332_db_project.insertPatient('Leeanne', 'Brach', '244-522-7903', '8641 Delaware Crossing', 'Anchorage', 'Alaska', '23877', '301-81-4277', '5/11/1953');
-call cpsc332_db_project.insertPatient('Sloan', 'Leipelt', '907-420-8008', '3809 Melby Crossing', 'Indianapolis', 'Indiana', '15317', '193-48-8566', '7/19/1987');
-call cpsc332_db_project.insertPatient('Donielle', 'Sorsbie', '808-530-4886', '990 Anderson Hill', 'Houston', 'Texas', '48828', '302-35-8110', '2/19/1981');
-call cpsc332_db_project.insertPatient('Albrecht', 'Szymanzyk', '804-553-4719', '1496 Montana Pass', 'Washington', 'District of Columbia', '26362', '131-34-5382', '3/5/1954');
-call cpsc332_db_project.insertPatient('Pepi', 'Kop', '094-457-9876', '2 Golf Hill', 'Dulles', 'Virginia', '22800', '609-51-2932', '12/12/1959');
-call cpsc332_db_project.insertPatient('Hoebart', 'Reveley', '498-123-9554', '86 Cody Lane', 'Atlanta', 'Georgia', '14794', '267-08-9321', '8/9/2000');
-call cpsc332_db_project.insertPatient('Bethena', 'Bapty', '188-519-6340', '48 Rowland Terrace', 'Detroit', 'Michigan', '36889', '678-43-9421', '4/18/1982');
-call cpsc332_db_project.insertPatient('Farica', 'Deares', '498-893-0094', '105 Darwin Hill', 'El Paso', 'Texas', '37086', '193-73-5419', '12/17/1959');
-call cpsc332_db_project.insertPatient('Morly', 'Elwood', '176-234-3138', '95 Eliot Drive', 'Tacoma', 'Washington', '56571', '990-06-2205', '11/28/1987');
-call cpsc332_db_project.insertPatient('Willis', 'Nutkins', '498-414-9784', '237 Jana Avenue', 'Tampa', 'Florida', '01256', '535-37-6767', '1/19/1953');
-call cpsc332_db_project.insertPatient('Saunder', 'Gadesby', '128-391-8786', '341 Judy Street', 'Fullerton', 'California', '53333', '647-67-0989', '5/24/1983');
-call cpsc332_db_project.insertPatient('Dick', 'Hardy-Piggin', '348-740-8126', '1 Autumn Leaf Crossing', 'San Bernardino', 'California', '23629', '333-89-7825', '7/16/1960');
-call cpsc332_db_project.insertPatient('Neely', 'Parnell', '632-184-6748', '12 Norway Maple Road', 'Richmond', 'Virginia', '80737', '359-09-8717', '6/25/1965');
-call cpsc332_db_project.insertDoctor('Conny', 'Cuddehay', '937-852-5862', '77 Summerview Center', 'Charleston', 'South Carolina', '57496', '596-66-1524', '5/18/1961', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Celia', 'Chinnick', '391-055-7364', '815 Valley Edge Park', 'Fullerton', 'California', '89399', '248-90-8319', '4/6/1997');
-call cpsc332_db_project.insertPatient('Mead', 'Tedorenko', '363-813-8779', '9 Pine View Park', 'Dallas', 'Texas', '65060', '693-90-4848', '5/11/1980');
-call cpsc332_db_project.insertPatient('Rachele', 'Bremond', '762-385-8906', '67494 Merchant Circle', 'Denver', 'Colorado', '16092', '356-10-0664', '3/14/1977');
-call cpsc332_db_project.insertPatient('Shannen', 'Collis', '225-286-9140', '103 Rutledge Court', 'Albany', 'New York', '79968', '036-65-5722', '4/3/1997');
-call cpsc332_db_project.insertPatient('Jana', 'Killock', '938-653-7719', '7488 Bunker Hill Avenue', 'Gainesville', 'Florida', '15447', '128-12-7463', '6/8/1979');
-call cpsc332_db_project.insertPatient('Kimmie', 'Bartul', '207-462-6285', '84 Holmberg Court', 'Sacramento', 'California', '95498', '096-97-6436', '8/7/1975');
-call cpsc332_db_project.insertPatient('Sianna', 'Fisbburne', '039-524-3442', '21 Park Meadow Junction', 'Philadelphia', 'Pennsylvania', '17438', '842-15-5942', '9/24/1991');
-call cpsc332_db_project.insertPatient('Allianora', 'Orwin', '007-473-9821', '2 Northland Center', 'Oklahoma City', 'Oklahoma', '58462', '243-69-6016', '6/6/1955');
-call cpsc332_db_project.insertPatient('Stanford', 'Berfoot', '196-651-4647', '41885 Doe Crossing Alley', 'Detroit', 'Michigan', '32927', '452-06-8495', '12/8/1998');
-call cpsc332_db_project.insertPatient('Dorthea', 'Cook', '205-368-4703', '34 Magdeline Street', 'Tucson', 'Arizona', '54374', '299-40-3680', '3/2/1992');
-call cpsc332_db_project.insertPatient('Nealson', 'Ortes', '242-130-6352', '84661 Blackbird Park', 'Oakland', 'California', '40714', '950-27-4377', '10/28/1977');
-call cpsc332_db_project.insertPatient('Margret', 'Cauldwell', '666-676-7131', '5 Esch Park', 'Washington', 'District of Columbia', '80644', '677-55-0503', '10/26/1976');
-call cpsc332_db_project.insertPatient('Anna', 'Champkin', '289-700-1397', '448 Scott Park', 'Chattanooga', 'Tennessee', '67651', '657-72-1044', '1/28/1964');
-call cpsc332_db_project.insertPatient('Tova', 'Janowicz', '893-540-1693', '68969 Ruskin Crossing', 'Richmond', 'Virginia', '27183', '857-47-7634', '11/6/1974');
-call cpsc332_db_project.insertPatient('Tallou', 'Mouser', '772-851-5384', '8 Elka Terrace', 'Portland', 'Oregon', '12965', '242-85-3966', '11/7/1984');
-call cpsc332_db_project.insertPatient('Noe', 'Burkill', '039-688-6425', '87 Redwing Court', 'Sarasota', 'Florida', '94734', '519-29-7952', '8/31/1973');
-call cpsc332_db_project.insertPatient('Corry', 'Kairns', '604-073-8402', '96025 Memorial Trail', 'Madison', 'Wisconsin', '66981', '953-37-2836', '5/19/1986');
-call cpsc332_db_project.insertPatient('Ryann', 'Bernuzzi', '717-509-4519', '903 Washington Way', 'Washington', 'District of Columbia', '77951', '338-61-4363', '10/14/1990');
-call cpsc332_db_project.insertPatient('Gerard', 'Koeppe', '029-357-5143', '42561 Schmedeman Terrace', 'Colorado Springs', 'Colorado', '52966', '142-95-5468', '9/14/1955');
-call cpsc332_db_project.insertPatient('Hadria', 'Gee', '827-509-1664', '74404 Service Court', 'Fresno', 'California', '39303', '018-61-6119', '8/9/1997');
-call cpsc332_db_project.insertPatient('Dewitt', 'Abatelli', '612-443-8047', '35269 Aberg Hill', 'El Paso', 'Texas', '90615', '609-43-0714', '5/30/1997');
-call cpsc332_db_project.insertDoctor('Lelah', 'McLae', '890-673-0114', '8312 Redwing Court', 'Huntington', 'West Virginia', '49376', '709-44-1536', '2/27/1953', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Sherry', 'Habgood', '826-281-2568', '2 4th Center', 'San Francisco', 'California', '16356', '648-81-7836', '12/4/1973');
-call cpsc332_db_project.insertDoctor('Monica', 'Longega', '584-658-7607', '43594 Fallview Trail', 'El Paso', 'Texas', '42228', '747-29-4051', '4/16/1955', 'Doctor of Funk');
-call cpsc332_db_project.insertDoctor('Janifer', 'Ferrea', '491-540-8690', '000 Sycamore Trail', 'Lincoln', 'Nebraska', '76172', '611-22-8429', '12/9/1973', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Lauraine', 'Jura', '002-042-2067', '9 Stoughton Point', 'Columbus', 'Georgia', '15975', '166-71-8431', '6/28/1976');
-call cpsc332_db_project.insertPatient('Marquita', 'Offner', '521-476-1218', '95 8th Pass', 'New York City', 'New York', '34499', '637-65-9912', '9/5/1986');
-call cpsc332_db_project.insertPatient('Adolphe', 'Scroxton', '883-608-3270', '90114 Pepper Wood Parkway', 'Oakland', 'California', '35348', '868-64-9349', '2/18/1988');
-call cpsc332_db_project.insertPatient('Nanni', 'Norker', '465-269-9725', '9 Ridge Oak Terrace', 'Camden', 'New Jersey', '75550', '099-91-0109', '5/5/2000');
-call cpsc332_db_project.insertPatient('Bendick', 'Bidewell', '675-765-1063', '221 Melby Point', 'Denton', 'Texas', '97064', '007-58-8542', '9/5/1962');
-call cpsc332_db_project.insertPatient('Dacie', 'Rock', '632-035-1421', '285 Vernon Plaza', 'Washington', 'District of Columbia', '93700', '564-10-7633', '1/7/1992');
-call cpsc332_db_project.insertPatient('Robby', 'Dacre', '201-372-4665', '57 Sullivan Place', 'Indianapolis', 'Indiana', '98716', '977-67-7391', '4/16/1982');
-call cpsc332_db_project.insertPatient('Cherie', 'Sill', '493-717-6760', '6380 Northview Park', 'Albuquerque', 'New Mexico', '36205', '155-84-2520', '6/11/1974');
-call cpsc332_db_project.insertPatient('Emma', 'Gandy', '963-278-5640', '4 Johnson Alley', 'Jamaica', 'New York', '53214', '490-40-2864', '3/31/1973');
-call cpsc332_db_project.insertPatient('Rutledge', 'Breacher', '396-910-2412', '12112 Waubesa Parkway', 'Saint Paul', 'Minnesota', '20404', '898-60-2854', '5/18/1950');
-call cpsc332_db_project.insertPatient('Maye', 'Troyes', '213-698-4026', '8743 Londonderry Circle', 'Fullerton', 'California', '72209', '159-95-6519', '8/5/1971');
-call cpsc332_db_project.insertDoctor('Jo', 'Gourley', '169-430-8844', '08899 Rigney Street', 'Worcester', 'Massachusetts', '86477', '107-49-3018', '11/10/1996', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Joane', 'Albany', '512-505-7164', '6 Dawn Parkway', 'Jacksonville', 'Florida', '25573', '359-10-0902', '12/1/1972');
-call cpsc332_db_project.insertPatient('Timoteo', 'Sutworth', '885-186-7434', '31613 Farragut Hill', 'Houston', 'Texas', '80388', '770-08-9034', '12/9/1993');
-call cpsc332_db_project.insertPatient('Garnette', 'Jikovsky', '133-232-1135', '4834 Caliangt Road', 'Dallas', 'Texas', '12942', '551-11-2565', '7/30/1955');
-call cpsc332_db_project.insertPatient('Abdel', 'Matissoff', '760-378-3156', '8113 Raven Parkway', 'Chicago', 'Illinois', '01983', '044-54-7758', '2/21/1952');
-call cpsc332_db_project.insertPatient('Candice', 'Elcox', '633-743-5348', '2 Canary Park', 'Mobile', 'Alabama', '28511', '749-95-3610', '10/15/1990');
-call cpsc332_db_project.insertPatient('Pyotr', 'Josse', '264-152-8654', '09 Spaight Pass', 'Topeka', 'Kansas', '17326', '780-41-2880', '9/2/1964');
-call cpsc332_db_project.insertPatient('Jenine', 'Bertelsen', '933-835-4303', '2 Service Parkway', 'Stockton', 'California', '50591', '427-24-0261', '1/13/1981');
-call cpsc332_db_project.insertPatient('Griffin', 'Castana', '601-489-3328', '39 Starling Alley', 'Akron', 'Ohio', '00493', '194-03-1035', '7/21/1988');
-call cpsc332_db_project.insertPatient('Elysia', 'Alsina', '856-713-4124', '0 Sutteridge Crossing', 'Dallas', 'Texas', '51181', '657-30-6749', '10/7/1993');
-call cpsc332_db_project.insertPatient('Gayleen', 'Genny', '208-915-3131', '36121 Hanson Circle', 'Pensacola', 'Florida', '79837', '799-47-7066', '4/9/1964');
-call cpsc332_db_project.insertPatient('Cullie', 'Vost', '098-336-3650', '0219 Manufacturers Street', 'Arlington', 'Texas', '99653', '890-46-0303', '8/15/1977');
-call cpsc332_db_project.insertDoctor('Lu', 'Rigg', '766-920-2294', '1822 Barnett Plaza', 'Saginaw', 'Michigan', '62148', '327-97-9438', '10/25/1953', 'Doctor of Surgery');
-call cpsc332_db_project.insertDoctor('Serge', 'Bartelot', '306-052-4172', '8 Talmadge Terrace', 'Panama City', 'Florida', '44166', '352-99-3905', '4/6/1997', 'Doctor of Mad Science');
-call cpsc332_db_project.insertPatient('Ashlee', 'Grasser', '626-993-5797', '191 Annamark Way', 'San Diego', 'California', '72016', '186-66-0250', '8/23/1973');
-call cpsc332_db_project.insertPatient('Muhammad', 'Stollman', '120-968-1260', '5271 Shasta Place', 'Rockford', 'Illinois', '51110', '953-65-7843', '8/13/1992');
-call cpsc332_db_project.insertDoctor('Romola', 'Trevaskus', '807-803-8420', '7 Fulton Hill', 'Bronx', 'New York', '27413', '326-10-9206', '3/13/1989', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Randolf', 'Guiton', '517-494-0858', '18414 Springview Road', 'Orlando', 'Florida', '63478', '831-94-4847', '6/23/1988');
-call cpsc332_db_project.insertPatient('Trude', 'Brownsword', '358-147-8450', '298 Wayridge Pass', 'Salinas', 'California', '33857', '104-01-9634', '11/4/1996');
-call cpsc332_db_project.insertPatient('Caye', 'Lubeck', '750-821-5441', '774 Roth Way', 'Conroe', 'Texas', '77432', '640-60-7045', '8/26/1993');
-call cpsc332_db_project.insertDoctor('Philly', 'Caitlin', '718-385-5119', '5316 Fair Oaks Road', 'Charleston', 'South Carolina', '00029', '370-10-6540', '3/19/1954', 'Doctor of Mad Science');
-call cpsc332_db_project.insertDoctor('Roberta', 'Mowbury', '969-556-2321', '1 Havey Lane', 'Honolulu', 'Hawaii', '68393', '987-58-2906', '3/19/1987', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Lemar', 'Tomik', '610-256-7105', '26 Eggendart Pass', 'Grand Rapids', 'Michigan', '40070', '310-60-3058', '8/8/1989');
-call cpsc332_db_project.insertPatient('Dominique', 'McCuthais', '074-937-4261', '32 Holmberg Terrace', 'Charleston', 'West Virginia', '27710', '348-96-6976', '12/27/1986');
-call cpsc332_db_project.insertDoctor('Justinn', 'Slaughter', '165-871-3972', '6522 Glendale Park', 'Fullerton', 'California', '83647', '141-86-0091', '1/5/1995', 'Doctor of Medicine');
-call cpsc332_db_project.insertPatient('Shae', 'Coushe', '047-828-4221', '258 Ruskin Pass', 'Washington', 'District of Columbia', '41361', '114-51-7025', '2/19/1955');
-call cpsc332_db_project.insertPatient('Smith', 'Phipps', '179-506-5187', '0852 David Place', 'Fort Worth', 'Texas', '29762', '785-50-7387', '7/31/1962');
-call cpsc332_db_project.insertPatient('Emery', 'Sansam', '636-665-5953', '003 Namekagon Crossing', 'Ann Arbor', 'Michigan', '78209', '585-62-7164', '6/14/1978');
-call cpsc332_db_project.insertPatient('Nial', 'Fader', '020-440-2899', '3 Everett Lane', 'Huntington', 'West Virginia', '76324', '773-51-2622', '6/21/1961');
-call cpsc332_db_project.insertPatient('Joane', 'Matkin', '841-947-7349', '20 Mallard Center', 'San Francisco', 'California', '73871', '440-80-9005', '5/28/1967');
-call cpsc332_db_project.insertPatient('Cathe', 'Fellon', '958-716-8345', '7005 Petterle Place', 'Rockford', 'Illinois', '74605', '220-91-5380', '2/24/1991');
-call cpsc332_db_project.insertPatient('Bradney', 'Gallen', '934-867-8224', '23 Quincy Plaza', 'Cincinnati', 'Ohio', '51528', '294-55-1829', '12/3/1990');
-call cpsc332_db_project.insertPatient('Warren', 'Thulborn', '691-319-1045', '4 Sunnyside Drive', 'Greenville', 'South Carolina', '53812', '678-01-4793', '7/31/2000');
-call cpsc332_db_project.insertPatient('Nikola', 'Glanville', '278-407-3511', '9 Schiller Court', 'Anaheim', 'California', '71005', '778-65-6365', '11/11/1995');
-call cpsc332_db_project.insertPatient('Karalynn', 'Matushevitz', '808-301-5102', '35632 Vera Hill', 'Grand Rapids', 'Michigan', '78810', '710-45-4882', '6/20/1961');
-call cpsc332_db_project.insertPatient('Angelina', 'Butterfint', '372-639-9931', '12099 Talisman Parkway', 'Savannah', 'Georgia', '17446', '327-92-5044', '10/15/1962');
-call cpsc332_db_project.insertPatient('Nina', 'Chapelhow', '014-758-1629', '9295 Autumn Leaf Road', 'Miami', 'Florida', '56885', '776-38-8460', '3/21/1998');
-call cpsc332_db_project.insertPatient('Darla', 'Ivanuschka', '813-541-9511', '7 Chive Parkway', 'Corpus Christi', 'Texas', '68496', '763-08-8961', '6/6/1950');
-call cpsc332_db_project.insertPatient('Adelind', 'Borris', '454-803-4117', '8312 Red Cloud Junction', 'Pompano Beach', 'Florida', '94590', '880-09-9580', '11/1/1964');
-call cpsc332_db_project.insertPatient('Osbert', 'Gebuhr', '600-371-6209', '266 Birchwood Terrace', 'Charleston', 'South Carolina', '52087', '820-38-1896', '4/17/1975');
-call cpsc332_db_project.insertPatient('Borden', 'Overton', '324-897-9284', '31163 Pierstorff Trail', 'Sacramento', 'California', '06412', '761-65-8074', '5/5/1972');
-call cpsc332_db_project.insertPatient('Nikolaos', 'Tuiller', '737-991-8448', '017 8th Crossing', 'Tallahassee', 'Florida', '59916', '066-93-8407', '11/23/1957');
-call cpsc332_db_project.insertDoctor('Jessika', 'Rubinowitsch', '996-200-6407', '5 Hanover Way', 'Herndon', 'Virginia', '39106', '122-83-2018', '12/1/1969', 'Doctor of Evil Medicine');
-call cpsc332_db_project.insertDoctor('Esra', 'Joscelin', '238-382-4971', '25303 Clemons Drive', 'Corpus Christi', 'Texas', '31710', '035-16-9751', '3/30/1976', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Karel', 'Ortler', '286-540-4294', '24707 Buhler Avenue', 'Nashville', 'Tennessee', '81456', '827-53-1951', '7/26/1982');
-call cpsc332_db_project.insertPatient('Corbie', 'Ellicombe', '072-824-1453', '51 Parkside Pass', 'Colorado Springs', 'Colorado', '40653', '747-08-2485', '9/23/1987');
-call cpsc332_db_project.insertPatient('Temp', 'Stein', '848-371-0064', '92 Del Sol Circle', 'Pasadena', 'California', '51959', '983-91-7596', '8/14/1961');
-call cpsc332_db_project.insertPatient('Dita', 'Tunnacliffe', '070-157-0350', '80 Jay Circle', 'Palo Alto', 'California', '02464', '292-81-5932', '6/25/1973');
-call cpsc332_db_project.insertPatient('Leonora', 'Boutellier', '612-609-5019', '06504 Main Alley', 'Macon', 'Georgia', '71242', '629-50-5520', '4/1/1984');
-call cpsc332_db_project.insertDoctor('Barnaby', 'Fanning', '454-334-9502', '4640 Ronald Regan Pass', 'Minneapolis', 'Minnesota', '52023', '286-64-0803', '9/4/1961', 'Doctor of Philosophy');
-call cpsc332_db_project.insertPatient('Nariko', 'Grim', '536-729-1005', '0 Mosinee Parkway', 'Reno', 'Nevada', '70698', '364-35-8751', '7/4/1993');
-call cpsc332_db_project.insertPatient('Drucill', 'Schultes', '217-315-9714', '3 Kipling Terrace', 'Glendale', 'Arizona', '02764', '307-32-9163', '7/19/1982');
-call cpsc332_db_project.insertDoctor('Den', 'Burgne', '423-893-3225', '98 Mayfield Park', 'El Paso', 'Texas', '18729', '663-86-5170', '5/26/1995', 'Doctor of Google It');
-call cpsc332_db_project.insertPatient('Ave', 'Pietron', '671-562-3982', '26369 Porter Way', 'Montgomery', 'Alabama', '50571', '330-69-4460', '5/21/1978');
-call cpsc332_db_project.insertPatient('Noel', 'Zelner', '854-219-5896', '7178 Longview Lane', 'Tucson', 'Arizona', '42967', '983-52-2670', '12/19/1950');
-call cpsc332_db_project.insertDoctor('Rakel', 'Rosnau', '725-983-0340', '1 Bunker Hill Trail', 'Portland', 'Oregon', '88108', '404-80-6274', '4/27/1988', 'Doctor of Funk');
-call cpsc332_db_project.insertPatient('Danita', 'Berthe', '769-238-8077', '17 Bunting Plaza', 'Charlotte', 'North Carolina', '03647', '983-95-1405', '4/30/1993');
-call cpsc332_db_project.insertPatient('Rafa', 'Blunsen', '498-324-6523', '477 Thierer Center', 'Burbank', 'California', '82916', '510-43-8743', '9/15/1953');
-call cpsc332_db_project.insertPatient('Mellisent', 'Hallad', '610-637-6150', '7 Superior Point', 'Dallas', 'Texas', '62264', '542-62-6499', '11/27/1953');
-call cpsc332_db_project.insertPatient('Gertrudis', 'Nisen', '340-685-3929', '61294 Lotheville Parkway', 'Fresno', 'California', '90375', '082-97-5261', '5/1/1973');
-call cpsc332_db_project.insertPatient('Viviana', 'Thornborrow', '332-834-1885', '9506 Oxford Road', 'Sacramento', 'California', '74546', '758-71-9091', '8/23/1967');
-call cpsc332_db_project.insertPatient('Hope', 'Ronci', '633-081-3133', '80402 Nevada Pass', 'Chicago', 'Illinois', '89542', '371-69-8031', '5/24/1950');
-call cpsc332_db_project.insertPatient('Wally', 'Hacquard', '078-652-7946', '0912 Roth Street', 'Harrisburg', 'Pennsylvania', '14925', '945-34-0064', '4/11/1962');
-call cpsc332_db_project.insertPatient('Kasey', 'Laidel', '381-225-8131', '94787 Glendale Center', 'Bradenton', 'Florida', '54935', '531-07-9943', '5/5/1994');
-call cpsc332_db_project.insertPatient('Augie', 'Marriage', '480-350-3509', '23 Montana Pass', 'Danbury', 'Connecticut', '14190', '223-09-9091', '2/1/1955');
-call cpsc332_db_project.insertPatient('Nicoli', 'Devey', '782-603-9469', '70324 La Follette Way', 'Raleigh', 'North Carolina', '31174', '882-28-8818', '6/16/1992');
+call DocOffice.insertDoctor('Rob', 'Belkin', '310-229-1351', '12 Bowman Lane', 'Fullerton', 'California', '58944', '166-21-0167', '12/25/1975', 'Doctor of Philosophy');
+call DocOffice.insertPatient('Vanya', 'O'' Byrne', '331-663-4013', '8600 Dakota Lane', 'Boise', 'Idaho', '67306', '509-49-2475', '1/6/1952');
+call DocOffice.insertPatient('Ross', 'Bielfelt', '678-946-4578', '9 Harper Road', 'Spring', 'Texas', '24849', '262-58-0820', '12/27/1985');
+call DocOffice.insertPatient('Morgun', 'Glew', '869-615-6807', '18 Garrison Lane', 'Toledo', 'Ohio', '62611', '203-17-4125', '9/12/1983');
+call DocOffice.insertPatient('Urbanus', 'O''Doran', '753-255-3684', '3489 Sutteridge Court', 'Amarillo', 'Texas', '37211', '702-20-8328', '5/6/1972');
+call DocOffice.insertPatient('Haleigh', 'Van Der Hoog', '344-796-2018', '62 Mitchell Road', 'New York City', 'New York', '20521', '702-73-6866', '3/27/1958');
+call DocOffice.insertPatient('Berget', 'Tommis', '047-271-0228', '29 Alpine Street', 'Fullerton', 'California', '75518', '537-04-5268', '5/13/1973');
+call DocOffice.insertPatient('Gwendolyn', 'Goodreid', '574-238-4601', '505 Almo Drive', 'New Bedford', 'Massachusetts', '21113', '130-97-7076', '3/22/1994');
+call DocOffice.insertPatient('Van', 'O''Lahy', '253-103-9283', '61 Schlimgen Alley', 'Burbank', 'California', '64989', '798-04-1950', '10/29/1951');
+call DocOffice.insertPatient('Kinnie', 'Nevett', '717-212-8754', '4660 Knutson Pass', 'Berkeley', 'California', '81799', '762-80-7887', '8/31/1961');
+call DocOffice.insertPatient('Benjy', 'Luckie', '736-023-7500', '75007 Vera Point', 'Jacksonville', 'Florida', '83610', '911-47-3148', '5/29/1998');
+call DocOffice.insertPatient('Kerry', 'Troake', '936-289-8580', '7968 Esch Road', 'Tacoma', 'Washington', '87649', '259-41-7146', '2/3/1998');
+call DocOffice.insertDoctor('Agnes', 'Handscombe', '295-252-1519', '64 Fulton Court', 'Bridgeport', 'Connecticut', '50786', '031-49-2414', '6/18/1994', 'Doctor of Google It');
+call DocOffice.insertDoctor('Kirsteni', 'Gonnet', '217-143-5263', '08 Arapahoe Court', 'Irving', 'Texas', '88094', '639-02-0434', '4/12/1987', 'Doctor of Funk');
+call DocOffice.insertDoctor('Nealy', 'Winfindale', '627-072-4801', '143 Westport Drive', 'Austin', 'Texas', '02080', '600-86-2928', '8/21/1990', 'Doctor of Medicine');
+call DocOffice.insertDoctor('Garik', 'Winsiowiecki', '708-494-8358', '910 Milwaukee Lane', 'Oklahoma City', 'Oklahoma', '82887', '305-25-6033', '8/17/1975', 'Doctor of Medicine');
+call DocOffice.insertPatient('Kaja', 'Ferencz', '155-586-0523', '91360 Barby Trail', 'Colorado Springs', 'Colorado', '78167', '052-64-1269', '7/18/1956');
+call DocOffice.insertPatient('Stuart', 'Bollis', '002-758-8436', '728 Waubesa Lane', 'San Antonio', 'Texas', '09788', '612-43-6928', '1/21/1984');
+call DocOffice.insertPatient('Clim', 'Kubczak', '645-142-9465', '173 Spaight Hill', 'Sacramento', 'California', '54707', '045-32-0970', '1/2/1984');
+call DocOffice.insertPatient('Tobit', 'Lenoir', '530-137-1340', '5444 Portage Center', 'Miami', 'Florida', '99311', '061-32-5605', '5/29/2000');
+call DocOffice.insertPatient('Peri', 'Coller', '562-460-0876', '3 Florence Terrace', 'Richmond', 'California', '85656', '910-94-1728', '5/25/1984');
+call DocOffice.insertPatient('Marlon', 'Quilty', '502-811-0083', '9 Stang Plaza', 'Minneapolis', 'Minnesota', '55604', '653-95-9135', '5/18/1996');
+call DocOffice.insertPatient('Vivia', 'Harries', '725-477-8970', '7842 Anniversary Park', 'Kansas City', 'Missouri', '78220', '737-13-0062', '7/11/1982');
+call DocOffice.insertPatient('Walt', 'Davitt', '215-025-1555', '66 Crowley Alley', 'Johnson City', 'Tennessee', '54968', '440-30-9646', '8/17/1976');
+call DocOffice.insertPatient('Selle', 'Zukerman', '653-976-4726', '3670 Clarendon Park', 'Hialeah', 'Florida', '28422', '206-78-1474', '2/11/1996');
+call DocOffice.insertPatient('Archambault', 'Jandak', '377-995-1573', '60 Straubel Street', 'Pensacola', 'Florida', '73703', '945-75-3531', '3/4/1952');
+call DocOffice.insertPatient('Tailor', 'Mouncey', '980-137-8687', '43334 Hazelcrest Trail', 'Midland', 'Texas', '28551', '111-99-0380', '8/12/1983');
+call DocOffice.insertPatient('Simone', 'Deroche', '984-148-9891', '10 Butterfield Place', 'Fort Lauderdale', 'Florida', '83816', '297-87-2745', '1/17/1955');
+call DocOffice.insertPatient('Audie', 'Harriott', '092-930-8959', '10329 Johnson Park', 'Erie', 'Pennsylvania', '60126', '574-35-6225', '9/8/2000');
+call DocOffice.insertPatient('Hyacinthe', 'Hayller', '925-362-0026', '7306 Heffernan Way', 'Fullerton', 'California', '03350', '884-55-2657', '5/25/1984');
+call DocOffice.insertPatient('Damita', 'Greggor', '399-511-2572', '33900 Maywood Drive', 'Madison', 'Wisconsin', '21185', '035-51-3178', '7/29/1969');
+call DocOffice.insertDoctor('Feliks', 'Le Gassick', '416-038-0945', '5 Ohio Lane', 'Los Angeles', 'California', '06379', '564-69-6292', '5/20/1985', 'Doctor of Medicine');
+call DocOffice.insertPatient('Catherin', 'MacAskie', '034-105-8675', '780 Mayfield Place', 'Philadelphia', 'Pennsylvania', '30024', '450-09-0786', '2/7/1952');
+call DocOffice.insertPatient('Skye', 'Surgison', '064-790-8133', '982 Badeau Drive', 'Prescott', 'Arizona', '50281', '037-55-4238', '12/8/1977');
+call DocOffice.insertPatient('Edwina', 'Farlham', '684-833-4599', '50 Warbler Junction', 'Kansas City', 'Missouri', '99101', '290-20-7362', '2/16/1958');
+call DocOffice.insertPatient('Warren', 'Kardos-Stowe', '215-820-3332', '69698 Dryden Alley', 'Tucson', 'Arizona', '94514', '836-91-5417', '4/18/1998');
+call DocOffice.insertDoctor('Twila', 'McGoldrick', '947-102-1256', '4434 Mesta Point', 'Greenville', 'South Carolina', '83201', '207-93-4275', '9/14/1996', 'Doctor of Philosophy');
+call DocOffice.insertDoctor('Bennie', 'Cheke', '937-392-2147', '6070 Redwing Alley', 'Pueblo', 'Colorado', '64555', '169-81-5793', '10/3/1973', 'Doctor of Google It');
+call DocOffice.insertDoctor('Pearla', 'Denecamp', '123-745-7076', '79 Nancy Lane', 'Miami', 'Florida', '72064', '385-29-6209', '1/31/1969', 'Doctor of Funk');
+call DocOffice.insertPatient('Cati', 'Colicot', '644-741-8008', '95777 Farmco Junction', 'Chicago', 'Illinois', '54663', '924-35-2057', '12/20/1962');
+call DocOffice.insertPatient('Axe', 'McKeighan', '678-679-9490', '14 Aberg Park', 'Mobile', 'Alabama', '92032', '403-16-7870', '1/27/1983');
+call DocOffice.insertDoctor('Conny', 'Mettericke', '953-720-9500', '2 Caliangt Plaza', 'Long Beach', 'California', '37187', '608-41-5772', '11/28/1969', 'Doctor of Google It');
+call DocOffice.insertPatient('Reagen', 'Brittin', '898-829-4777', '10755 Merry Hill', 'Fort Worth', 'Texas', '25291', '793-40-0054', '4/2/1970');
+call DocOffice.insertPatient('Nikkie', 'Murtagh', '435-580-9260', '1780 Bultman Court', 'Minneapolis', 'Minnesota', '26466', '809-50-2293', '12/10/1989');
+call DocOffice.insertPatient('Davina', 'Peaurt', '696-455-2250', '1 Tennessee Pass', 'Fullerton', 'California', '68187', '541-17-7353', '9/14/1962');
+call DocOffice.insertPatient('Simon', 'Cowoppe', '661-909-7659', '31 American Center', 'Des Moines', 'Iowa', '45736', '828-55-9350', '2/5/1979');
+call DocOffice.insertPatient('Terrel', 'Hayton', '035-852-9242', '317 Lindbergh Alley', 'Baltimore', 'Maryland', '28656', '891-68-3430', '5/13/1978');
+call DocOffice.insertPatient('Innis', 'Bloomer', '729-571-6930', '6 Dryden Pass', 'Temple', 'Texas', '10970', '251-66-3397', '3/6/1961');
+call DocOffice.insertPatient('Angel', 'Suttaby', '028-821-7088', '7 7th Drive', 'Savannah', 'Georgia', '75077', '571-64-0446', '11/7/1953');
+call DocOffice.insertDoctor('Amandie', 'Stanton', '602-388-2942', '9 Dorton Trail', 'Washington', 'District of Columbia', '82068', '950-55-0078', '1/12/1964', 'Doctor of Philosophy');
+call DocOffice.insertPatient('Ase', 'Whiteland', '256-428-3555', '10 Trailsway Parkway', 'Bakersfield', 'California', '69505', '609-97-4637', '4/28/1983');
+call DocOffice.insertPatient('Nanette', 'Cornell', '032-353-9128', '7 Helena Plaza', 'Brooklyn', 'New York', '33305', '402-53-4308', '8/13/1954');
+call DocOffice.insertPatient('Fina', 'Barrar', '799-944-7179', '2 Comanche Park', 'Punta Gorda', 'Florida', '83539', '633-57-0946', '5/17/1973');
+call DocOffice.insertPatient('Gilli', 'Ruskin', '893-763-2561', '473 Loomis Parkway', 'Miami', 'Florida', '55923', '120-21-4463', '11/29/1976');
+call DocOffice.insertPatient('Mycah', 'Dormand', '873-899-7588', '0 Carey Parkway', 'San Jose', 'California', '34025', '434-55-1990', '12/2/1950');
+call DocOffice.insertPatient('Gretal', 'Stedell', '804-822-7910', '2414 Saint Paul Way', 'Jersey City', 'New Jersey', '02075', '208-55-3232', '5/6/1992');
+call DocOffice.insertDoctor('Conroy', 'Hugenin', '312-476-8692', '4557 Gerald Crossing', 'Phoenix', 'Arizona', '54533', '788-19-8638', '12/8/1950', 'Doctor of Philosophy');
+call DocOffice.insertDoctor('Susanetta', 'Coggles', '476-858-5634', '028 Glendale Trail', 'San Jose', 'California', '62795', '486-18-6112', '6/17/1995', 'Doctor of Medicine');
+call DocOffice.insertPatient('Clovis', 'Stener', '442-430-1080', '2 Logan Hill', 'Jackson', 'Mississippi', '33917', '837-35-2507', '11/15/1964');
+call DocOffice.insertPatient('Bethina', 'Ivannikov', '801-298-4280', '0679 Hauk Way', 'Birmingham', 'Alabama', '54288', '960-85-7021', '7/1/1955');
+call DocOffice.insertPatient('Lazare', 'Eastbrook', '251-648-0959', '6119 Anzinger Point', 'San Francisco', 'California', '86453', '747-36-3812', '12/9/1967');
+call DocOffice.insertPatient('Bald', 'Hutson', '378-632-8510', '3864 Killdeer Plaza', 'Bradenton', 'Florida', '86753', '973-48-3125', '12/30/1983');
+call DocOffice.insertPatient('Garrett', 'Fairley', '888-752-3355', '9125 Mifflin Court', 'Macon', 'Georgia', '56279', '804-93-8497', '2/9/1995');
+call DocOffice.insertPatient('Roshelle', 'Grim', '451-916-2341', '03 Dovetail Avenue', 'Asheville', 'North Carolina', '51075', '405-75-8718', '9/23/1952');
+call DocOffice.insertPatient('Jake', 'Burdge', '966-883-6873', '36 Delaware Junction', 'Roanoke', 'Virginia', '72819', '536-62-3183', '4/27/1961');
+call DocOffice.insertPatient('Pamela', 'Scibsey', '551-483-2535', '50577 International Parkway', 'Boston', 'Massachusetts', '25607', '475-43-6160', '9/28/1992');
+call DocOffice.insertDoctor('Claresta', 'Bennetto', '243-873-8011', '372 Tomscot Point', 'Galveston', 'Texas', '21081', '013-27-6918', '11/7/1995', 'Doctor of Evil Medicine');
+call DocOffice.insertPatient('Collin', 'Denisyuk', '515-884-4092', '05 North Place', 'Knoxville', 'Tennessee', '46685', '808-09-7195', '1/22/1957');
+call DocOffice.insertPatient('Ev', 'Franchyonok', '874-425-1864', '78169 Cardinal Point', 'Austin', 'Texas', '63532', '922-71-4354', '3/21/1991');
+call DocOffice.insertDoctor('Noni', 'Ladds', '320-456-3963', '97 Thierer Court', 'West Palm Beach', 'Florida', '19194', '447-25-4752', '10/19/1961', 'Doctor of Google It');
+call DocOffice.insertPatient('Cynthie', 'Yukhnin', '918-306-4563', '375 Anniversary Circle', 'Austin', 'Texas', '44515', '362-54-6300', '10/14/1993');
+call DocOffice.insertPatient('Kerry', 'MacDiarmond', '303-606-8241', '0904 Cambridge Court', 'Tampa', 'Florida', '44156', '482-61-4998', '11/18/1994');
+call DocOffice.insertPatient('Marwin', 'Terrington', '826-520-4275', '56106 East Court', 'Austin', 'Texas', '31196', '824-79-5456', '4/10/1953');
+call DocOffice.insertPatient('Celka', 'Eliet', '899-108-4532', '080 Eagan Junction', 'Grand Rapids', 'Michigan', '16847', '836-88-2783', '5/14/1972');
+call DocOffice.insertDoctor('Farlay', 'de la Tremoille', '980-766-7069', '55507 Donald Street', 'Spokane', 'Washington', '60215', '456-65-2835', '10/20/1965', 'Doctor of Funk');
+call DocOffice.insertPatient('Jerad', 'Alsop', '849-491-1427', '79311 Autumn Leaf Way', 'Fort Myers', 'Florida', '78496', '965-96-5164', '9/6/1979');
+call DocOffice.insertPatient('Imogene', 'Kneath', '046-910-3694', '2 Corben Street', 'Denver', 'Colorado', '24338', '975-76-4126', '2/17/1988');
+call DocOffice.insertPatient('Alexander', 'Hayle', '532-716-8815', '05 5th Road', 'Birmingham', 'Alabama', '86795', '383-18-1491', '9/28/1964');
+call DocOffice.insertPatient('Pier', 'Sinnie', '958-669-9710', '0781 Browning Way', 'Chicago', 'Illinois', '32393', '387-89-4736', '10/24/1969');
+call DocOffice.insertPatient('Carney', 'Shave', '181-618-9399', '940 Melody Pass', 'Albany', 'New York', '85096', '228-52-1687', '5/12/1989');
+call DocOffice.insertPatient('Ninnetta', 'Cuniam', '927-154-0211', '543 Lunder Center', 'Madison', 'Wisconsin', '80213', '476-06-8630', '2/15/1956');
+call DocOffice.insertDoctor('Hamil', 'Bristo', '693-598-3114', '09 Grover Lane', 'Mount Vernon', 'New York', '08405', '917-41-4845', '4/22/1984', 'Doctor of Surgery');
+call DocOffice.insertPatient('Rube', 'Killford', '294-348-3986', '860 Fulton Circle', 'Houston', 'Texas', '30370', '040-27-0957', '10/11/1990');
+call DocOffice.insertPatient('Jane', 'Shimmings', '682-576-7026', '339 Sachtjen Trail', 'Evansville', 'Indiana', '95584', '865-91-6836', '5/22/1974');
+call DocOffice.insertPatient('Anet', 'Buckham', '162-367-8715', '146 Armistice Pass', 'Fullerton', 'California', '78799', '476-60-8667', '5/18/1991');
+call DocOffice.insertPatient('Crawford', 'Alvin', '079-335-7328', '93113 Erie Plaza', 'Milwaukee', 'Wisconsin', '36364', '719-02-7506', '12/19/1964');
+call DocOffice.insertDoctor('Dudley', 'Britch', '297-078-5345', '97460 Loftsgordon Way', 'New York City', 'New York', '05264', '079-88-6446', '11/11/1981', 'Doctor of Mad Science');
+call DocOffice.insertPatient('Madelin', 'Dunsire', '701-651-5277', '63 Chive Circle', 'San Antonio', 'Texas', '70170', '091-61-0436', '6/23/1995');
+call DocOffice.insertPatient('Francis', 'Kelk', '107-121-8392', '02 Esch Lane', 'Washington', 'District of Columbia', '88664', '436-34-4294', '7/2/1965');
+call DocOffice.insertPatient('Christel', 'MacDunlevy', '909-049-5631', '7496 Haas Lane', 'Woburn', 'Massachusetts', '63274', '134-41-0127', '8/18/1951');
+call DocOffice.insertPatient('Gregorio', 'Antonoczyk', '197-593-9657', '707 Myrtle Junction', 'Juneau', 'Alaska', '73160', '181-62-3837', '11/3/1955');
+call DocOffice.insertPatient('Shea', 'McClaurie', '310-384-5875', '9002 Starling Way', 'Topeka', 'Kansas', '27395', '224-90-9584', '5/5/1993');
+call DocOffice.insertPatient('Irena', 'O''Crevy', '735-906-6543', '53 Straubel Pass', 'Lafayette', 'Louisiana', '83316', '867-21-9737', '5/26/1960');
+call DocOffice.insertPatient('Lorrayne', 'Wyllcock', '966-775-6952', '9 Vera Trail', 'Hartford', 'Connecticut', '34878', '897-35-8670', '9/7/1970');
+call DocOffice.insertPatient('Reinald', 'Jacmard', '821-769-8141', '04 Katie Place', 'Montgomery', 'Alabama', '12566', '512-69-8530', '10/23/1980');
+call DocOffice.insertPatient('Elsbeth', 'Alberti', '295-796-2778', '5031 Buena Vista Junction', 'San Jose', 'California', '32493', '989-71-2126', '7/15/1983');
+call DocOffice.insertPatient('Jordan', 'Acaster', '127-285-6796', '292 Fisk Center', 'San Diego', 'California', '95906', '169-25-5673', '1/22/1961');
+call DocOffice.insertDoctor('Jodi', 'Laidler', '701-025-8699', '43 Muir Drive', 'Huntington Beach', 'California', '45199', '377-25-0679', '7/7/1990', 'Doctor of Surgery');
+call DocOffice.insertPatient('Zondra', 'Drinkeld', '328-564-7725', '263 Messerschmidt Circle', 'Jamaica', 'New York', '55702', '337-40-7699', '7/17/1982');
+call DocOffice.insertPatient('Sebastien', 'Bru', '510-044-1508', '8859 Maryland Trail', 'Dayton', 'Ohio', '36948', '946-65-6683', '3/30/2000');
+call DocOffice.insertPatient('Wilmar', 'Delaprelle', '551-909-8928', '06 John Wall Road', 'Lima', 'Ohio', '56869', '839-52-0387', '9/26/1954');
+call DocOffice.insertPatient('Parnell', 'Hargey', '040-786-4710', '474 Corry Alley', 'Tampa', 'Florida', '70064', '769-40-6380', '5/18/1973');
+call DocOffice.insertPatient('Joanne', 'Hawlgarth', '238-014-1632', '993 Knutson Road', 'Saint Paul', 'Minnesota', '30846', '013-09-6795', '8/29/1992');
+call DocOffice.insertPatient('Kaylee', 'Hannis', '074-997-2671', '9847 Manley Avenue', 'Boise', 'Idaho', '34253', '743-99-3827', '1/19/1988');
+call DocOffice.insertPatient('Lane', 'Clews', '733-599-6937', '51799 Scofield Road', 'Harrisburg', 'Pennsylvania', '29449', '689-65-8917', '2/17/1970');
+call DocOffice.insertPatient('Hermy', 'Hazeldean', '632-529-0945', '8 Welch Point', 'New York City', 'New York', '49093', '582-52-4558', '1/24/1999');
+call DocOffice.insertPatient('Jannel', 'Peedell', '533-334-6200', '130 Blaine Crossing', 'Idaho Falls', 'Idaho', '56308', '976-13-2962', '2/11/1970');
+call DocOffice.insertPatient('Tibold', 'Hallitt', '308-770-6237', '59687 Carberry Road', 'Topeka', 'Kansas', '67143', '682-07-5556', '6/28/1957');
+call DocOffice.insertPatient('Enrique', 'McNab', '095-346-8409', '9 Johnson Plaza', 'Pensacola', 'Florida', '37726', '597-17-4972', '5/10/1985');
+call DocOffice.insertPatient('Rani', 'Benet', '173-861-5991', '3921 Nelson Trail', 'Birmingham', 'Alabama', '77216', '002-98-1394', '9/14/1991');
+call DocOffice.insertPatient('Melva', 'Robatham', '912-222-5365', '073 Corscot Street', 'Huntsville', 'Alabama', '65371', '382-77-4174', '11/18/1985');
+call DocOffice.insertPatient('Torr', 'Ostick', '570-637-3395', '1866 Westridge Court', 'Charlotte', 'North Carolina', '52500', '603-24-5678', '5/13/1959');
+call DocOffice.insertDoctor('Grady', 'Presley', '570-242-6868', '43 Sutherland Junction', 'Jamaica', 'New York', '51420', '460-74-9869', '11/11/1980', 'Doctor of Evil Medicine');
+call DocOffice.insertDoctor('Marina', 'Klemz', '607-793-7399', '70911 Pierstorff Avenue', 'Atlanta', 'Georgia', '82567', '928-46-6600', '1/31/1958', 'Doctor of Google It');
+call DocOffice.insertPatient('Javier', 'Blaske', '167-940-7264', '341 Heffernan Crossing', 'Long Beach', 'California', '13138', '038-89-7339', '10/28/1981');
+call DocOffice.insertPatient('Shelbi', 'Van den Velde', '769-871-9372', '8 Shopko Road', 'Austin', 'Texas', '75416', '366-11-5295', '2/12/2000');
+call DocOffice.insertPatient('Codie', 'Mammatt', '382-746-4744', '5133 Lakewood Gardens Lane', 'Erie', 'Pennsylvania', '10749', '573-73-9704', '9/21/1988');
+call DocOffice.insertPatient('Brigid', 'Maryman', '957-955-2287', '9 Fisk Street', 'Baltimore', 'Maryland', '72068', '914-19-0771', '7/15/1959');
+call DocOffice.insertPatient('Ertha', 'Garnham', '292-719-7941', '363 Cody Park', 'Washington', 'District of Columbia', '93584', '873-20-3155', '12/22/1990');
+call DocOffice.insertPatient('Myer', 'Riccardo', '257-276-4353', '3 Sunbrook Street', 'Washington', 'District of Columbia', '13858', '971-66-3676', '12/16/1970');
+call DocOffice.insertPatient('Ange', 'Angliss', '138-094-0215', '16474 Roth Court', 'Levittown', 'Pennsylvania', '34934', '640-80-7336', '10/23/1976');
+call DocOffice.insertPatient('Merrill', 'Saxon', '785-957-8006', '9 Loftsgordon Road', 'Denver', 'Colorado', '60361', '558-26-1419', '1/31/1970');
+call DocOffice.insertPatient('Willdon', 'Andreini', '917-681-6076', '7999 Sauthoff Alley', 'Mc Keesport', 'Pennsylvania', '50707', '415-75-8569', '5/4/1953');
+call DocOffice.insertPatient('Ailbert', 'Wagen', '712-467-1607', '9 Lotheville Point', 'Saint Paul', 'Minnesota', '17832', '393-91-7831', '12/19/1957');
+call DocOffice.insertPatient('Kaila', 'Van Bruggen', '547-984-7863', '517 Kingsford Circle', 'Columbus', 'Ohio', '82745', '694-07-0307', '7/17/1965');
+call DocOffice.insertPatient('Kayla', 'Crooks', '924-600-1884', '0389 Nelson Avenue', 'Pensacola', 'Florida', '87183', '134-55-8268', '1/31/1996');
+call DocOffice.insertPatient('Marijo', 'Goldsworthy', '559-764-5272', '2091 Bunting Pass', 'Tulsa', 'Oklahoma', '74157', '196-86-7558', '12/2/1955');
+call DocOffice.insertPatient('Paolina', 'Bewick', '535-720-4320', '9 Raven Circle', 'Norwalk', 'Connecticut', '50275', '702-43-9356', '8/6/1977');
+call DocOffice.insertPatient('Ephrayim', 'Drewett', '497-365-7265', '42444 Morrow Trail', 'Denton', 'Texas', '27142', '038-25-4890', '4/15/1977');
+call DocOffice.insertPatient('Janella', 'Clemson', '651-551-8708', '1 Lukken Crossing', 'Los Angeles', 'California', '92647', '294-70-1088', '3/13/1977');
+call DocOffice.insertPatient('Garrik', 'Halfacre', '341-627-8291', '3 Center Parkway', 'Sparks', 'Nevada', '76689', '286-77-4422', '6/18/1989');
+call DocOffice.insertPatient('Shaw', 'Klimushev', '417-695-7470', '85432 Meadow Ridge Crossing', 'Dayton', 'Ohio', '24902', '337-46-0045', '9/26/1998');
+call DocOffice.insertPatient('Gayelord', 'Cheyenne', '166-425-7087', '1407 Vidon Avenue', 'Gatesville', 'Texas', '63401', '998-34-2164', '3/30/1993');
+call DocOffice.insertPatient('Nona', 'Elham', '942-933-0402', '98 Ridgeview Parkway', 'Greensboro', 'North Carolina', '45407', '971-96-9218', '1/27/1975');
+call DocOffice.insertPatient('Zena', 'Boick', '559-326-1762', '57056 Thompson Terrace', 'Washington', 'District of Columbia', '88800', '995-25-2264', '5/28/1989');
+call DocOffice.insertPatient('Scarlett', 'Chesney', '533-035-2867', '4 New Castle Plaza', 'Lawrenceville', 'Georgia', '80711', '243-06-6399', '3/8/1980');
+call DocOffice.insertPatient('Donnell', 'Pickup', '095-507-9194', '39010 Lawn Place', 'Atlanta', 'Georgia', '59874', '839-57-4246', '7/15/1987');
+call DocOffice.insertPatient('Charil', 'McGriele', '810-348-1079', '14 Evergreen Hill', 'Riverside', 'California', '74814', '139-48-0591', '4/19/1974');
+call DocOffice.insertPatient('Nanci', 'Presley', '858-936-8060', '2614 Logan Junction', 'Cedar Rapids', 'Iowa', '67698', '273-39-1073', '7/30/1985');
+call DocOffice.insertPatient('Brant', 'Calven', '583-231-2181', '9092 Linden Road', 'Winston Salem', 'North Carolina', '42348', '946-80-7922', '4/24/1959');
+call DocOffice.insertPatient('Lew', 'Dafforne', '965-874-7224', '7515 Heffernan Junction', 'El Paso', 'Texas', '43590', '283-39-8579', '11/21/1995');
+call DocOffice.insertPatient('Gisella', 'Fitchet', '492-801-8539', '0 Independence Avenue', 'Memphis', 'Tennessee', '62642', '762-80-7445', '4/24/1978');
+call DocOffice.insertPatient('Vanessa', 'Buddington', '848-406-5565', '327 Magdeline Court', 'Orlando', 'Florida', '40560', '623-19-1124', '2/3/1980');
+call DocOffice.insertPatient('Shandeigh', 'Amberg', '728-083-5162', '1742 Loftsgordon Court', 'New York City', 'New York', '87510', '870-77-6986', '1/28/1965');
+call DocOffice.insertPatient('Cleon', 'McTrustam', '222-053-5554', '21290 Weeping Birch Parkway', 'El Paso', 'Texas', '44164', '994-17-8866', '1/23/1973');
+call DocOffice.insertDoctor('Silas', 'Lopez', '143-749-6891', '1842 Kipling Court', 'Lexington', 'Kentucky', '41044', '185-08-4816', '3/17/1952', 'Doctor of Funk');
+call DocOffice.insertPatient('Tully', 'Josse', '553-335-9974', '534 Prairie Rose Drive', 'New York City', 'New York', '81215', '165-34-8748', '12/16/1990');
+call DocOffice.insertPatient('Maribel', 'Bourthoumieux', '783-304-6403', '88196 Miller Plaza', 'El Paso', 'Texas', '18543', '430-14-2360', '7/28/2000');
+call DocOffice.insertDoctor('Tildy', 'Rozier', '868-860-7207', '5 Rutledge Park', 'Sandy', 'Utah', '01826', '572-46-1268', '8/27/1998', 'Doctor of Google It');
+call DocOffice.insertPatient('Nelson', 'Rentelll', '506-042-8246', '73 Carpenter Place', 'Trenton', 'New Jersey', '69517', '795-23-9056', '12/11/1985');
+call DocOffice.insertDoctor('Marietta', 'Reignould', '738-650-9867', '87 Mitchell Hill', 'Columbus', 'Ohio', '67116', '939-47-9205', '12/26/1954', 'Doctor of Surgery');
+call DocOffice.insertPatient('Edith', 'Simmers', '898-350-4786', '305 Nova Street', 'Tampa', 'Florida', '76098', '443-97-2444', '9/29/1963');
+call DocOffice.insertPatient('Ainslee', 'Caddies', '544-923-6599', '6 Oak Valley Park', 'Metairie', 'Louisiana', '76403', '211-32-2535', '5/2/1992');
+call DocOffice.insertPatient('Nichole', 'Scopham', '805-141-2272', '22609 Novick Street', 'Tulsa', 'Oklahoma', '24000', '357-42-2544', '2/10/1959');
+call DocOffice.insertPatient('Bar', 'Haack', '234-805-4831', '9374 Village Crossing', 'Greensboro', 'North Carolina', '39608', '469-58-8374', '7/22/1954');
+call DocOffice.insertPatient('Montague', 'Bertome', '333-069-1198', '6 2nd Center', 'Long Beach', 'California', '82622', '999-39-2972', '3/24/1981');
+call DocOffice.insertPatient('Gardiner', 'Armin', '411-090-5223', '91918 Dahle Court', 'Aurora', 'Colorado', '93403', '885-11-1422', '1/6/1952');
+call DocOffice.insertPatient('Larina', 'Castaneda', '658-573-0300', '90 Basil Lane', 'Norfolk', 'Virginia', '86396', '737-33-4264', '6/14/1971');
+call DocOffice.insertPatient('Vonny', 'Welberry', '508-261-9619', '767 Surrey Point', 'Sacramento', 'California', '35538', '643-81-6426', '4/12/1979');
+call DocOffice.insertPatient('Marcus', 'Gateshill', '802-546-7989', '62384 American Ash Center', 'Midland', 'Michigan', '99204', '930-07-3170', '6/9/1993');
+call DocOffice.insertPatient('Eustace', 'Faltskog', '176-439-0208', '26 Continental Lane', 'Abilene', 'Texas', '28030', '326-20-2714', '4/29/1980');
+call DocOffice.insertPatient('Shayla', 'Tieman', '108-833-3686', '8938 Dixon Junction', 'Cape Coral', 'Florida', '92202', '937-89-2853', '5/10/1962');
+call DocOffice.insertDoctor('Caryn', 'Van der Beken', '193-948-8803', '2 Harper Way', 'Flint', 'Michigan', '44331', '463-49-8203', '4/26/1966', 'Doctor of Philosophy');
+call DocOffice.insertPatient('Ky', 'Skurm', '389-396-0351', '53 Jana Place', 'Richmond', 'Virginia', '80088', '952-84-7832', '3/12/1965');
+call DocOffice.insertPatient('Roshelle', 'Kindle', '756-912-2483', '95041 Merchant Circle', 'Virginia Beach', 'Virginia', '10928', '707-37-0682', '6/25/1954');
+call DocOffice.insertPatient('Ferrell', 'Brame', '858-131-8918', '456 Algoma Court', 'Columbus', 'Mississippi', '74742', '327-62-9898', '4/14/1990');
+call DocOffice.insertPatient('Israel', 'Lamburn', '186-168-5076', '995 Namekagon Place', 'Aiken', 'South Carolina', '28844', '276-14-5314', '4/21/1957');
+call DocOffice.insertPatient('Bronson', 'Deverock', '722-139-8912', '3 Spenser Parkway', 'Evanston', 'Illinois', '61479', '133-18-8590', '5/2/1956');
+call DocOffice.insertPatient('Mathilde', 'Hinkley', '399-515-5583', '4301 Pleasure Point', 'Peoria', 'Illinois', '41057', '501-66-3087', '2/23/1991');
+call DocOffice.insertPatient('Kristoffer', 'Speers', '333-986-2498', '04 Rutledge Court', 'Anderson', 'Indiana', '35988', '320-72-6840', '1/4/1990');
+call DocOffice.insertPatient('Morganica', 'Pridgeon', '677-273-1260', '3 Dapin Junction', 'Fullerton', 'California', '92021', '570-99-6047', '5/16/1962');
+call DocOffice.insertPatient('Michaeline', 'Wileman', '628-978-4043', '85 Anniversary Terrace', 'Indianapolis', 'Indiana', '94068', '172-04-8506', '1/17/1998');
+call DocOffice.insertPatient('Kelwin', 'Guyton', '624-066-2369', '5621 Monterey Hill', 'Honolulu', 'Hawaii', '07322', '107-12-8864', '3/20/1979');
+call DocOffice.insertPatient('Jessi', 'But', '503-856-1212', '5 Cardinal Way', 'Boston', 'Massachusetts', '07559', '926-09-2698', '6/25/1988');
+call DocOffice.insertDoctor('Kristian', 'Rankin', '874-700-5692', '8831 Del Mar Trail', 'Little Rock', 'Arkansas', '61321', '718-39-3551', '7/17/1974', 'Doctor of Mad Science');
+call DocOffice.insertPatient('Carol', 'Duncan', '637-919-0184', '5379 Evergreen Pass', 'Wichita Falls', 'Texas', '24749', '928-36-1447', '3/25/1983');
+call DocOffice.insertPatient('Paule', 'Christal', '620-411-8286', '1557 Drewry Alley', 'Phoenix', 'Arizona', '32288', '327-83-2742', '4/10/1973');
+call DocOffice.insertDoctor('Maxie', 'Muge', '305-922-5413', '133 Evergreen Park', 'Lansing', 'Michigan', '32231', '848-66-3150', '5/18/1952', 'Doctor of Surgery');
+call DocOffice.insertDoctor('Grover', 'McElwee', '903-405-5312', '1 Crest Line Terrace', 'Minneapolis', 'Minnesota', '69111', '231-11-2967', '7/22/1998', 'Doctor of Mad Science');
+call DocOffice.insertPatient('Irwinn', 'Renner', '749-969-2099', '87 Main Trail', 'Philadelphia', 'Pennsylvania', '70805', '828-81-9475', '11/10/2000');
+call DocOffice.insertPatient('Charlena', 'Beebee', '265-423-2953', '34363 Hoepker Alley', 'San Antonio', 'Texas', '83837', '984-56-4594', '7/4/1978');
+call DocOffice.insertPatient('Min', 'Kleinplac', '258-842-7648', '246 International Junction', 'Carson City', 'Nevada', '41271', '426-30-3978', '9/13/1986');
+call DocOffice.insertPatient('Francis', 'Whiteson', '729-133-0642', '969 Waxwing Center', 'Carol Stream', 'Illinois', '09713', '224-52-1493', '4/8/1972');
+call DocOffice.insertDoctor('Hendrick', 'Cassin', '773-521-1790', '37932 Sutteridge Trail', 'San Francisco', 'California', '35920', '768-03-4444', '8/20/1976', 'Doctor of Medicine');
+call DocOffice.insertPatient('Freeman', 'Desbrow', '273-008-0284', '763 South Street', 'Fresno', 'California', '78145', '376-97-4805', '4/30/1999');
+call DocOffice.insertPatient('Lothaire', 'Fashion', '962-838-4938', '98 Manley Plaza', 'Arlington', 'Virginia', '93896', '792-51-6945', '6/14/1997');
+call DocOffice.insertPatient('Dodie', 'Ties', '671-133-0196', '5 Kim Center', 'Dearborn', 'Michigan', '01613', '664-44-2546', '7/22/1966');
+call DocOffice.insertPatient('Gabriele', 'Ladson', '189-498-7440', '90537 Green Ridge Point', 'Louisville', 'Kentucky', '97710', '143-24-9889', '7/18/1972');
+call DocOffice.insertPatient('Brockie', 'McCrossan', '143-755-2647', '7195 Glacier Hill Pass', 'Bridgeport', 'Connecticut', '32439', '294-93-3470', '10/22/1996');
+call DocOffice.insertPatient('Angel', 'Wickey', '684-659-3640', '4572 Anniversary Drive', 'Austin', 'Texas', '06377', '325-45-1063', '7/14/1975');
+call DocOffice.insertPatient('Arney', 'Creaser', '372-561-5042', '74 Buena Vista Place', 'Flint', 'Michigan', '46154', '813-15-6902', '9/1/1996');
+call DocOffice.insertPatient('Cassandre', 'McIlvaney', '027-136-9477', '29 Menomonie Parkway', 'El Paso', 'Texas', '11242', '456-04-3160', '7/19/1990');
+call DocOffice.insertPatient('Murielle', 'Posner', '855-986-1425', '042 Westend Lane', 'Tucson', 'Arizona', '35050', '724-38-1381', '9/1/1975');
+call DocOffice.insertPatient('Mindy', 'Lawes', '637-390-8435', '07955 Eliot Hill', 'Portsmouth', 'Virginia', '45036', '219-64-1340', '10/20/1989');
+call DocOffice.insertPatient('Sal', 'Janusz', '214-910-5581', '3050 Nelson Circle', 'Flint', 'Michigan', '94099', '380-83-7184', '7/1/1953');
+call DocOffice.insertPatient('Lynnell', 'Ilchenko', '882-350-4529', '596 Moose Alley', 'Muncie', 'Indiana', '52211', '187-51-2582', '11/22/1967');
+call DocOffice.insertPatient('Lorant', 'Pawden', '804-350-9407', '40407 Ludington Terrace', 'Rochester', 'New York', '98386', '268-55-4948', '2/19/1959');
+call DocOffice.insertPatient('Millisent', 'Rippen', '114-099-8996', '4002 Porter Junction', 'Los Angeles', 'California', '97893', '032-25-8467', '8/29/1972');
+call DocOffice.insertPatient('Hussein', 'Kunzler', '318-200-6389', '87503 Springs Road', 'Fullerton', 'California', '50913', '005-57-4024', '7/21/1978');
+call DocOffice.insertDoctor('Tatiana', 'Brooke', '566-417-2615', '194 Fulton Center', 'Scottsdale', 'Arizona', '68377', '665-02-0866', '1/26/1994', 'Doctor of Philosophy');
+call DocOffice.insertPatient('Charisse', 'Mouncher', '535-912-1813', '885 Wayridge Parkway', 'Saint Louis', 'Missouri', '68115', '093-63-3285', '5/22/1985');
+call DocOffice.insertPatient('Ruben', 'Buie', '741-068-9192', '355 Lyons Point', 'Kansas City', 'Missouri', '70539', '327-54-0727', '9/18/1997');
+call DocOffice.insertPatient('Bethanne', 'Lawranson', '980-292-4036', '04303 Pepper Wood Street', 'Saint Paul', 'Minnesota', '90992', '626-56-9791', '7/16/1973');
+call DocOffice.insertPatient('Sergei', 'Zmitrovich', '740-869-5409', '3616 Amoth Drive', 'Montgomery', 'Alabama', '37683', '388-11-1422', '2/25/1969');
+call DocOffice.insertPatient('Audrye', 'MacTrustrie', '456-716-6957', '28805 5th Junction', 'San Antonio', 'Texas', '82005', '623-11-0792', '12/13/1988');
+call DocOffice.insertPatient('Elane', 'Coke', '117-127-4040', '44 Blue Bill Park Trail', 'Phoenix', 'Arizona', '96640', '120-52-2659', '7/9/1962');
+call DocOffice.insertPatient('Damian', 'Greed', '999-640-4580', '15 Arrowood Junction', 'Huntington Beach', 'California', '83730', '151-75-4514', '8/2/1978');
+call DocOffice.insertPatient('Margret', 'Gallanders', '638-692-0482', '5 Waxwing Street', 'Houston', 'Texas', '59596', '892-26-5762', '5/6/1968');
+call DocOffice.insertDoctor('Itch', 'Sebley', '463-497-7721', '1 Morrow Circle', 'Seattle', 'Washington', '03335', '647-78-3945', '3/19/1991', 'Doctor of Medicine');
+call DocOffice.insertDoctor('Wallis', 'Brazener', '913-287-3980', '8 Starling Center', 'Washington', 'District of Columbia', '45571', '519-05-9293', '8/2/1955', 'Doctor of Evil Medicine');
+call DocOffice.insertPatient('Silvano', 'Vorley', '571-522-1601', '1 Upham Way', 'North Las Vegas', 'Nevada', '13491', '510-56-4572', '9/23/1988');
+call DocOffice.insertPatient('Benedikt', 'Janosevic', '343-187-2453', '17 Fairfield Junction', 'Jersey City', 'New Jersey', '36473', '697-64-9918', '4/9/1958');
+call DocOffice.insertDoctor('Selle', 'Tzuker', '955-806-4919', '916 Katie Trail', 'Los Angeles', 'California', '69550', '091-84-9941', '7/7/1955', 'Doctor of Mad Science');
+call DocOffice.insertPatient('Steffane', 'Maggiori', '107-871-5569', '02784 Pine View Hill', 'Savannah', 'Georgia', '80585', '731-74-1116', '9/16/1953');
+call DocOffice.insertPatient('Suellen', 'McGhee', '503-386-7484', '6 Lyons Court', 'Naperville', 'Illinois', '49119', '016-03-4783', '4/29/1995');
+call DocOffice.insertPatient('Stacee', 'Adlem', '052-831-2021', '96238 Westerfield Street', 'Washington', 'District of Columbia', '28798', '697-14-7560', '8/10/1987');
+call DocOffice.insertPatient('Morgana', 'Glyn', '319-494-4817', '1 Lakewood Gardens Place', 'Brooklyn', 'New York', '83169', '806-26-0379', '4/29/1967');
+call DocOffice.insertPatient('Glendon', 'Scalia', '099-224-6654', '885 Express Terrace', 'Honolulu', 'Hawaii', '35380', '879-72-8617', '9/8/1993');
+call DocOffice.insertPatient('Lay', 'Cuppitt', '260-953-5162', '55 Pennsylvania Crossing', 'Wichita Falls', 'Texas', '44798', '018-76-7340', '9/15/1958');
+call DocOffice.insertPatient('Dominik', 'Dobell', '282-547-4519', '80335 Arapahoe Center', 'Kansas City', 'Kansas', '83399', '789-87-0769', '11/4/1969');
+call DocOffice.insertDoctor('Pollyanna', 'Pilcher', '601-262-6767', '7972 Manufacturers Terrace', 'Oklahoma City', 'Oklahoma', '71170', '565-31-8729', '8/12/1993', 'Doctor of Evil Medicine');
+call DocOffice.insertDoctor('Jehu', 'Garnson', '735-645-3976', '59 Pepper Wood Lane', 'Corpus Christi', 'Texas', '33322', '826-89-2555', '2/21/1979', 'Doctor of Evil Medicine');
+call DocOffice.insertPatient('Joella', 'Keuntje', '589-722-6589', '0930 Glacier Hill Road', 'Stamford', 'Connecticut', '42758', '268-27-2883', '9/9/1999');
+call DocOffice.insertPatient('Burt', 'Iffe', '431-121-2203', '2466 Florence Terrace', 'Fullerton', 'California', '63583', '895-65-8154', '5/23/1989');
+call DocOffice.insertPatient('Analise', 'Oneal', '322-482-3866', '68379 Corben Court', 'Pittsburgh', 'Pennsylvania', '12819', '663-63-2804', '5/8/1952');
+call DocOffice.insertPatient('Thornton', 'Hakking', '451-391-5926', '40065 Nova Court', 'Boca Raton', 'Florida', '97276', '785-82-2542', '5/30/1960');
+call DocOffice.insertPatient('Lothaire', 'Springall', '448-329-0648', '47140 Marquette Court', 'Lexington', 'Kentucky', '51473', '884-72-7918', '11/17/1959');
+call DocOffice.insertPatient('Mallissa', 'Matteoni', '555-639-5657', '99102 Everett Place', 'Sacramento', 'California', '88075', '301-37-8814', '12/6/1982');
+call DocOffice.insertPatient('Miguel', 'Gleadhell', '976-719-2806', '183 Straubel Way', 'Reading', 'Pennsylvania', '26994', '185-07-4112', '2/25/1967');
+call DocOffice.insertPatient('Frederik', 'Salla', '819-817-1824', '049 Troy Street', 'Kansas City', 'Missouri', '16199', '240-12-6880', '9/20/2000');
+call DocOffice.insertPatient('Ardelis', 'Hopfer', '652-379-5430', '425 Harbort Center', 'San Mateo', 'California', '37837', '125-98-8189', '1/27/1983');
+call DocOffice.insertPatient('Fulton', 'Kettridge', '608-861-3564', '3 Hanson Place', 'Buffalo', 'New York', '06652', '707-13-2195', '10/25/1987');
+call DocOffice.insertPatient('Doretta', 'O'' Dornan', '410-683-7334', '4 Merrick Drive', 'Alhambra', 'California', '94462', '108-78-7846', '12/3/1989');
+call DocOffice.insertPatient('Thibaut', 'Downes', '347-832-8259', '128 Granby Crossing', 'Louisville', 'Kentucky', '88507', '985-97-1642', '7/8/1953');
+call DocOffice.insertPatient('Clayborn', 'Romero', '929-464-6024', '0 Upham Parkway', 'Midland', 'Michigan', '40755', '760-05-8946', '11/19/1969');
+call DocOffice.insertPatient('Leeanne', 'Brach', '244-522-7903', '8641 Delaware Crossing', 'Anchorage', 'Alaska', '23877', '301-81-4277', '5/11/1953');
+call DocOffice.insertPatient('Sloan', 'Leipelt', '907-420-8008', '3809 Melby Crossing', 'Indianapolis', 'Indiana', '15317', '193-48-8566', '7/19/1987');
+call DocOffice.insertPatient('Donielle', 'Sorsbie', '808-530-4886', '990 Anderson Hill', 'Houston', 'Texas', '48828', '302-35-8110', '2/19/1981');
+call DocOffice.insertPatient('Albrecht', 'Szymanzyk', '804-553-4719', '1496 Montana Pass', 'Washington', 'District of Columbia', '26362', '131-34-5382', '3/5/1954');
+call DocOffice.insertPatient('Pepi', 'Kop', '094-457-9876', '2 Golf Hill', 'Dulles', 'Virginia', '22800', '609-51-2932', '12/12/1959');
+call DocOffice.insertPatient('Hoebart', 'Reveley', '498-123-9554', '86 Cody Lane', 'Atlanta', 'Georgia', '14794', '267-08-9321', '8/9/2000');
+call DocOffice.insertPatient('Bethena', 'Bapty', '188-519-6340', '48 Rowland Terrace', 'Detroit', 'Michigan', '36889', '678-43-9421', '4/18/1982');
+call DocOffice.insertPatient('Farica', 'Deares', '498-893-0094', '105 Darwin Hill', 'El Paso', 'Texas', '37086', '193-73-5419', '12/17/1959');
+call DocOffice.insertPatient('Morly', 'Elwood', '176-234-3138', '95 Eliot Drive', 'Tacoma', 'Washington', '56571', '990-06-2205', '11/28/1987');
+call DocOffice.insertPatient('Willis', 'Nutkins', '498-414-9784', '237 Jana Avenue', 'Tampa', 'Florida', '01256', '535-37-6767', '1/19/1953');
+call DocOffice.insertPatient('Saunder', 'Gadesby', '128-391-8786', '341 Judy Street', 'Fullerton', 'California', '53333', '647-67-0989', '5/24/1983');
+call DocOffice.insertPatient('Dick', 'Hardy-Piggin', '348-740-8126', '1 Autumn Leaf Crossing', 'San Bernardino', 'California', '23629', '333-89-7825', '7/16/1960');
+call DocOffice.insertPatient('Neely', 'Parnell', '632-184-6748', '12 Norway Maple Road', 'Richmond', 'Virginia', '80737', '359-09-8717', '6/25/1965');
+call DocOffice.insertDoctor('Conny', 'Cuddehay', '937-852-5862', '77 Summerview Center', 'Charleston', 'South Carolina', '57496', '596-66-1524', '5/18/1961', 'Doctor of Funk');
+call DocOffice.insertPatient('Celia', 'Chinnick', '391-055-7364', '815 Valley Edge Park', 'Fullerton', 'California', '89399', '248-90-8319', '4/6/1997');
+call DocOffice.insertPatient('Mead', 'Tedorenko', '363-813-8779', '9 Pine View Park', 'Dallas', 'Texas', '65060', '693-90-4848', '5/11/1980');
+call DocOffice.insertPatient('Rachele', 'Bremond', '762-385-8906', '67494 Merchant Circle', 'Denver', 'Colorado', '16092', '356-10-0664', '3/14/1977');
+call DocOffice.insertPatient('Shannen', 'Collis', '225-286-9140', '103 Rutledge Court', 'Albany', 'New York', '79968', '036-65-5722', '4/3/1997');
+call DocOffice.insertPatient('Jana', 'Killock', '938-653-7719', '7488 Bunker Hill Avenue', 'Gainesville', 'Florida', '15447', '128-12-7463', '6/8/1979');
+call DocOffice.insertPatient('Kimmie', 'Bartul', '207-462-6285', '84 Holmberg Court', 'Sacramento', 'California', '95498', '096-97-6436', '8/7/1975');
+call DocOffice.insertPatient('Sianna', 'Fisbburne', '039-524-3442', '21 Park Meadow Junction', 'Philadelphia', 'Pennsylvania', '17438', '842-15-5942', '9/24/1991');
+call DocOffice.insertPatient('Allianora', 'Orwin', '007-473-9821', '2 Northland Center', 'Oklahoma City', 'Oklahoma', '58462', '243-69-6016', '6/6/1955');
+call DocOffice.insertPatient('Stanford', 'Berfoot', '196-651-4647', '41885 Doe Crossing Alley', 'Detroit', 'Michigan', '32927', '452-06-8495', '12/8/1998');
+call DocOffice.insertPatient('Dorthea', 'Cook', '205-368-4703', '34 Magdeline Street', 'Tucson', 'Arizona', '54374', '299-40-3680', '3/2/1992');
+call DocOffice.insertPatient('Nealson', 'Ortes', '242-130-6352', '84661 Blackbird Park', 'Oakland', 'California', '40714', '950-27-4377', '10/28/1977');
+call DocOffice.insertPatient('Margret', 'Cauldwell', '666-676-7131', '5 Esch Park', 'Washington', 'District of Columbia', '80644', '677-55-0503', '10/26/1976');
+call DocOffice.insertPatient('Anna', 'Champkin', '289-700-1397', '448 Scott Park', 'Chattanooga', 'Tennessee', '67651', '657-72-1044', '1/28/1964');
+call DocOffice.insertPatient('Tova', 'Janowicz', '893-540-1693', '68969 Ruskin Crossing', 'Richmond', 'Virginia', '27183', '857-47-7634', '11/6/1974');
+call DocOffice.insertPatient('Tallou', 'Mouser', '772-851-5384', '8 Elka Terrace', 'Portland', 'Oregon', '12965', '242-85-3966', '11/7/1984');
+call DocOffice.insertPatient('Noe', 'Burkill', '039-688-6425', '87 Redwing Court', 'Sarasota', 'Florida', '94734', '519-29-7952', '8/31/1973');
+call DocOffice.insertPatient('Corry', 'Kairns', '604-073-8402', '96025 Memorial Trail', 'Madison', 'Wisconsin', '66981', '953-37-2836', '5/19/1986');
+call DocOffice.insertPatient('Ryann', 'Bernuzzi', '717-509-4519', '903 Washington Way', 'Washington', 'District of Columbia', '77951', '338-61-4363', '10/14/1990');
+call DocOffice.insertPatient('Gerard', 'Koeppe', '029-357-5143', '42561 Schmedeman Terrace', 'Colorado Springs', 'Colorado', '52966', '142-95-5468', '9/14/1955');
+call DocOffice.insertPatient('Hadria', 'Gee', '827-509-1664', '74404 Service Court', 'Fresno', 'California', '39303', '018-61-6119', '8/9/1997');
+call DocOffice.insertPatient('Dewitt', 'Abatelli', '612-443-8047', '35269 Aberg Hill', 'El Paso', 'Texas', '90615', '609-43-0714', '5/30/1997');
+call DocOffice.insertDoctor('Lelah', 'McLae', '890-673-0114', '8312 Redwing Court', 'Huntington', 'West Virginia', '49376', '709-44-1536', '2/27/1953', 'Doctor of Medicine');
+call DocOffice.insertPatient('Sherry', 'Habgood', '826-281-2568', '2 4th Center', 'San Francisco', 'California', '16356', '648-81-7836', '12/4/1973');
+call DocOffice.insertDoctor('Monica', 'Longega', '584-658-7607', '43594 Fallview Trail', 'El Paso', 'Texas', '42228', '747-29-4051', '4/16/1955', 'Doctor of Funk');
+call DocOffice.insertDoctor('Janifer', 'Ferrea', '491-540-8690', '000 Sycamore Trail', 'Lincoln', 'Nebraska', '76172', '611-22-8429', '12/9/1973', 'Doctor of Medicine');
+call DocOffice.insertPatient('Lauraine', 'Jura', '002-042-2067', '9 Stoughton Point', 'Columbus', 'Georgia', '15975', '166-71-8431', '6/28/1976');
+call DocOffice.insertPatient('Marquita', 'Offner', '521-476-1218', '95 8th Pass', 'New York City', 'New York', '34499', '637-65-9912', '9/5/1986');
+call DocOffice.insertPatient('Adolphe', 'Scroxton', '883-608-3270', '90114 Pepper Wood Parkway', 'Oakland', 'California', '35348', '868-64-9349', '2/18/1988');
+call DocOffice.insertPatient('Nanni', 'Norker', '465-269-9725', '9 Ridge Oak Terrace', 'Camden', 'New Jersey', '75550', '099-91-0109', '5/5/2000');
+call DocOffice.insertPatient('Bendick', 'Bidewell', '675-765-1063', '221 Melby Point', 'Denton', 'Texas', '97064', '007-58-8542', '9/5/1962');
+call DocOffice.insertPatient('Dacie', 'Rock', '632-035-1421', '285 Vernon Plaza', 'Washington', 'District of Columbia', '93700', '564-10-7633', '1/7/1992');
+call DocOffice.insertPatient('Robby', 'Dacre', '201-372-4665', '57 Sullivan Place', 'Indianapolis', 'Indiana', '98716', '977-67-7391', '4/16/1982');
+call DocOffice.insertPatient('Cherie', 'Sill', '493-717-6760', '6380 Northview Park', 'Albuquerque', 'New Mexico', '36205', '155-84-2520', '6/11/1974');
+call DocOffice.insertPatient('Emma', 'Gandy', '963-278-5640', '4 Johnson Alley', 'Jamaica', 'New York', '53214', '490-40-2864', '3/31/1973');
+call DocOffice.insertPatient('Rutledge', 'Breacher', '396-910-2412', '12112 Waubesa Parkway', 'Saint Paul', 'Minnesota', '20404', '898-60-2854', '5/18/1950');
+call DocOffice.insertPatient('Maye', 'Troyes', '213-698-4026', '8743 Londonderry Circle', 'Fullerton', 'California', '72209', '159-95-6519', '8/5/1971');
+call DocOffice.insertDoctor('Jo', 'Gourley', '169-430-8844', '08899 Rigney Street', 'Worcester', 'Massachusetts', '86477', '107-49-3018', '11/10/1996', 'Doctor of Medicine');
+call DocOffice.insertPatient('Joane', 'Albany', '512-505-7164', '6 Dawn Parkway', 'Jacksonville', 'Florida', '25573', '359-10-0902', '12/1/1972');
+call DocOffice.insertPatient('Timoteo', 'Sutworth', '885-186-7434', '31613 Farragut Hill', 'Houston', 'Texas', '80388', '770-08-9034', '12/9/1993');
+call DocOffice.insertPatient('Garnette', 'Jikovsky', '133-232-1135', '4834 Caliangt Road', 'Dallas', 'Texas', '12942', '551-11-2565', '7/30/1955');
+call DocOffice.insertPatient('Abdel', 'Matissoff', '760-378-3156', '8113 Raven Parkway', 'Chicago', 'Illinois', '01983', '044-54-7758', '2/21/1952');
+call DocOffice.insertPatient('Candice', 'Elcox', '633-743-5348', '2 Canary Park', 'Mobile', 'Alabama', '28511', '749-95-3610', '10/15/1990');
+call DocOffice.insertPatient('Pyotr', 'Josse', '264-152-8654', '09 Spaight Pass', 'Topeka', 'Kansas', '17326', '780-41-2880', '9/2/1964');
+call DocOffice.insertPatient('Jenine', 'Bertelsen', '933-835-4303', '2 Service Parkway', 'Stockton', 'California', '50591', '427-24-0261', '1/13/1981');
+call DocOffice.insertPatient('Griffin', 'Castana', '601-489-3328', '39 Starling Alley', 'Akron', 'Ohio', '00493', '194-03-1035', '7/21/1988');
+call DocOffice.insertPatient('Elysia', 'Alsina', '856-713-4124', '0 Sutteridge Crossing', 'Dallas', 'Texas', '51181', '657-30-6749', '10/7/1993');
+call DocOffice.insertPatient('Gayleen', 'Genny', '208-915-3131', '36121 Hanson Circle', 'Pensacola', 'Florida', '79837', '799-47-7066', '4/9/1964');
+call DocOffice.insertPatient('Cullie', 'Vost', '098-336-3650', '0219 Manufacturers Street', 'Arlington', 'Texas', '99653', '890-46-0303', '8/15/1977');
+call DocOffice.insertDoctor('Lu', 'Rigg', '766-920-2294', '1822 Barnett Plaza', 'Saginaw', 'Michigan', '62148', '327-97-9438', '10/25/1953', 'Doctor of Surgery');
+call DocOffice.insertDoctor('Serge', 'Bartelot', '306-052-4172', '8 Talmadge Terrace', 'Panama City', 'Florida', '44166', '352-99-3905', '4/6/1997', 'Doctor of Mad Science');
+call DocOffice.insertPatient('Ashlee', 'Grasser', '626-993-5797', '191 Annamark Way', 'San Diego', 'California', '72016', '186-66-0250', '8/23/1973');
+call DocOffice.insertPatient('Muhammad', 'Stollman', '120-968-1260', '5271 Shasta Place', 'Rockford', 'Illinois', '51110', '953-65-7843', '8/13/1992');
+call DocOffice.insertDoctor('Romola', 'Trevaskus', '807-803-8420', '7 Fulton Hill', 'Bronx', 'New York', '27413', '326-10-9206', '3/13/1989', 'Doctor of Funk');
+call DocOffice.insertPatient('Randolf', 'Guiton', '517-494-0858', '18414 Springview Road', 'Orlando', 'Florida', '63478', '831-94-4847', '6/23/1988');
+call DocOffice.insertPatient('Trude', 'Brownsword', '358-147-8450', '298 Wayridge Pass', 'Salinas', 'California', '33857', '104-01-9634', '11/4/1996');
+call DocOffice.insertPatient('Caye', 'Lubeck', '750-821-5441', '774 Roth Way', 'Conroe', 'Texas', '77432', '640-60-7045', '8/26/1993');
+call DocOffice.insertDoctor('Philly', 'Caitlin', '718-385-5119', '5316 Fair Oaks Road', 'Charleston', 'South Carolina', '00029', '370-10-6540', '3/19/1954', 'Doctor of Mad Science');
+call DocOffice.insertDoctor('Roberta', 'Mowbury', '969-556-2321', '1 Havey Lane', 'Honolulu', 'Hawaii', '68393', '987-58-2906', '3/19/1987', 'Doctor of Funk');
+call DocOffice.insertPatient('Lemar', 'Tomik', '610-256-7105', '26 Eggendart Pass', 'Grand Rapids', 'Michigan', '40070', '310-60-3058', '8/8/1989');
+call DocOffice.insertPatient('Dominique', 'McCuthais', '074-937-4261', '32 Holmberg Terrace', 'Charleston', 'West Virginia', '27710', '348-96-6976', '12/27/1986');
+call DocOffice.insertDoctor('Justinn', 'Slaughter', '165-871-3972', '6522 Glendale Park', 'Fullerton', 'California', '83647', '141-86-0091', '1/5/1995', 'Doctor of Medicine');
+call DocOffice.insertPatient('Shae', 'Coushe', '047-828-4221', '258 Ruskin Pass', 'Washington', 'District of Columbia', '41361', '114-51-7025', '2/19/1955');
+call DocOffice.insertPatient('Smith', 'Phipps', '179-506-5187', '0852 David Place', 'Fort Worth', 'Texas', '29762', '785-50-7387', '7/31/1962');
+call DocOffice.insertPatient('Emery', 'Sansam', '636-665-5953', '003 Namekagon Crossing', 'Ann Arbor', 'Michigan', '78209', '585-62-7164', '6/14/1978');
+call DocOffice.insertPatient('Nial', 'Fader', '020-440-2899', '3 Everett Lane', 'Huntington', 'West Virginia', '76324', '773-51-2622', '6/21/1961');
+call DocOffice.insertPatient('Joane', 'Matkin', '841-947-7349', '20 Mallard Center', 'San Francisco', 'California', '73871', '440-80-9005', '5/28/1967');
+call DocOffice.insertPatient('Cathe', 'Fellon', '958-716-8345', '7005 Petterle Place', 'Rockford', 'Illinois', '74605', '220-91-5380', '2/24/1991');
+call DocOffice.insertPatient('Bradney', 'Gallen', '934-867-8224', '23 Quincy Plaza', 'Cincinnati', 'Ohio', '51528', '294-55-1829', '12/3/1990');
+call DocOffice.insertPatient('Warren', 'Thulborn', '691-319-1045', '4 Sunnyside Drive', 'Greenville', 'South Carolina', '53812', '678-01-4793', '7/31/2000');
+call DocOffice.insertPatient('Nikola', 'Glanville', '278-407-3511', '9 Schiller Court', 'Anaheim', 'California', '71005', '778-65-6365', '11/11/1995');
+call DocOffice.insertPatient('Karalynn', 'Matushevitz', '808-301-5102', '35632 Vera Hill', 'Grand Rapids', 'Michigan', '78810', '710-45-4882', '6/20/1961');
+call DocOffice.insertPatient('Angelina', 'Butterfint', '372-639-9931', '12099 Talisman Parkway', 'Savannah', 'Georgia', '17446', '327-92-5044', '10/15/1962');
+call DocOffice.insertPatient('Nina', 'Chapelhow', '014-758-1629', '9295 Autumn Leaf Road', 'Miami', 'Florida', '56885', '776-38-8460', '3/21/1998');
+call DocOffice.insertPatient('Darla', 'Ivanuschka', '813-541-9511', '7 Chive Parkway', 'Corpus Christi', 'Texas', '68496', '763-08-8961', '6/6/1950');
+call DocOffice.insertPatient('Adelind', 'Borris', '454-803-4117', '8312 Red Cloud Junction', 'Pompano Beach', 'Florida', '94590', '880-09-9580', '11/1/1964');
+call DocOffice.insertPatient('Osbert', 'Gebuhr', '600-371-6209', '266 Birchwood Terrace', 'Charleston', 'South Carolina', '52087', '820-38-1896', '4/17/1975');
+call DocOffice.insertPatient('Borden', 'Overton', '324-897-9284', '31163 Pierstorff Trail', 'Sacramento', 'California', '06412', '761-65-8074', '5/5/1972');
+call DocOffice.insertPatient('Nikolaos', 'Tuiller', '737-991-8448', '017 8th Crossing', 'Tallahassee', 'Florida', '59916', '066-93-8407', '11/23/1957');
+call DocOffice.insertDoctor('Jessika', 'Rubinowitsch', '996-200-6407', '5 Hanover Way', 'Herndon', 'Virginia', '39106', '122-83-2018', '12/1/1969', 'Doctor of Evil Medicine');
+call DocOffice.insertDoctor('Esra', 'Joscelin', '238-382-4971', '25303 Clemons Drive', 'Corpus Christi', 'Texas', '31710', '035-16-9751', '3/30/1976', 'Doctor of Funk');
+call DocOffice.insertPatient('Karel', 'Ortler', '286-540-4294', '24707 Buhler Avenue', 'Nashville', 'Tennessee', '81456', '827-53-1951', '7/26/1982');
+call DocOffice.insertPatient('Corbie', 'Ellicombe', '072-824-1453', '51 Parkside Pass', 'Colorado Springs', 'Colorado', '40653', '747-08-2485', '9/23/1987');
+call DocOffice.insertPatient('Temp', 'Stein', '848-371-0064', '92 Del Sol Circle', 'Pasadena', 'California', '51959', '983-91-7596', '8/14/1961');
+call DocOffice.insertPatient('Dita', 'Tunnacliffe', '070-157-0350', '80 Jay Circle', 'Palo Alto', 'California', '02464', '292-81-5932', '6/25/1973');
+call DocOffice.insertPatient('Leonora', 'Boutellier', '612-609-5019', '06504 Main Alley', 'Macon', 'Georgia', '71242', '629-50-5520', '4/1/1984');
+call DocOffice.insertDoctor('Barnaby', 'Fanning', '454-334-9502', '4640 Ronald Regan Pass', 'Minneapolis', 'Minnesota', '52023', '286-64-0803', '9/4/1961', 'Doctor of Philosophy');
+call DocOffice.insertPatient('Nariko', 'Grim', '536-729-1005', '0 Mosinee Parkway', 'Reno', 'Nevada', '70698', '364-35-8751', '7/4/1993');
+call DocOffice.insertPatient('Drucill', 'Schultes', '217-315-9714', '3 Kipling Terrace', 'Glendale', 'Arizona', '02764', '307-32-9163', '7/19/1982');
+call DocOffice.insertDoctor('Den', 'Burgne', '423-893-3225', '98 Mayfield Park', 'El Paso', 'Texas', '18729', '663-86-5170', '5/26/1995', 'Doctor of Google It');
+call DocOffice.insertPatient('Ave', 'Pietron', '671-562-3982', '26369 Porter Way', 'Montgomery', 'Alabama', '50571', '330-69-4460', '5/21/1978');
+call DocOffice.insertPatient('Noel', 'Zelner', '854-219-5896', '7178 Longview Lane', 'Tucson', 'Arizona', '42967', '983-52-2670', '12/19/1950');
+call DocOffice.insertDoctor('Rakel', 'Rosnau', '725-983-0340', '1 Bunker Hill Trail', 'Portland', 'Oregon', '88108', '404-80-6274', '4/27/1988', 'Doctor of Funk');
+call DocOffice.insertPatient('Danita', 'Berthe', '769-238-8077', '17 Bunting Plaza', 'Charlotte', 'North Carolina', '03647', '983-95-1405', '4/30/1993');
+call DocOffice.insertPatient('Rafa', 'Blunsen', '498-324-6523', '477 Thierer Center', 'Burbank', 'California', '82916', '510-43-8743', '9/15/1953');
+call DocOffice.insertPatient('Mellisent', 'Hallad', '610-637-6150', '7 Superior Point', 'Dallas', 'Texas', '62264', '542-62-6499', '11/27/1953');
+call DocOffice.insertPatient('Gertrudis', 'Nisen', '340-685-3929', '61294 Lotheville Parkway', 'Fresno', 'California', '90375', '082-97-5261', '5/1/1973');
+call DocOffice.insertPatient('Viviana', 'Thornborrow', '332-834-1885', '9506 Oxford Road', 'Sacramento', 'California', '74546', '758-71-9091', '8/23/1967');
+call DocOffice.insertPatient('Hope', 'Ronci', '633-081-3133', '80402 Nevada Pass', 'Chicago', 'Illinois', '89542', '371-69-8031', '5/24/1950');
+call DocOffice.insertPatient('Wally', 'Hacquard', '078-652-7946', '0912 Roth Street', 'Harrisburg', 'Pennsylvania', '14925', '945-34-0064', '4/11/1962');
+call DocOffice.insertPatient('Kasey', 'Laidel', '381-225-8131', '94787 Glendale Center', 'Bradenton', 'Florida', '54935', '531-07-9943', '5/5/1994');
+call DocOffice.insertPatient('Augie', 'Marriage', '480-350-3509', '23 Montana Pass', 'Danbury', 'Connecticut', '14190', '223-09-9091', '2/1/1955');
+call DocOffice.insertPatient('Nicoli', 'Devey', '782-603-9469', '70324 La Follette Way', 'Raleigh', 'North Carolina', '31174', '882-28-8818', '6/16/1992');
 
 
 insert into prescription(name) values ('Panadol');
@@ -1040,7 +1040,7 @@ insert into specialty(name) values ('Radiology');
 insert into specialty(name) values ('Evil Radiology');
 
 
-call cpsc332_db_project.generateVisits(1000); 
-call cpsc332_db_project.generatePescriptions(300);
-call cpsc332_db_project.generateAppointmentTests(300);
-CALL cpsc332_db_project.generateSpecialties(40);
+call DocOffice.generateVisits(1000); 
+call DocOffice.generatePescriptions(300);
+call DocOffice.generateAppointmentTests(300);
+call DocOffice.generateSpecialties(40);
