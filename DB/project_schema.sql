@@ -340,7 +340,102 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
+-- -----------------------------------------------------
+-- Views
+-- -----------------------------------------------------
+CREATE VIEW `doctor_who_gave_panadol` AS
+SELECT DISTINCT person.first_name, person.last_name
+FROM person, doctor, visit, visit_prescription, prescription  
+WHERE prescription.name = 'Panadol' 
+  AND prescription.prescription_id = visit_prescription.fk_prescription_id 
+  AND visit.visit_id = visit_prescription.fk_visit_id 
+  AND doctor.doctor_id = visit.fk_doctor_id 
+  AND person.person_id = doctor.fk_person_id
+  ORDER BY person.last_name, person.first_name;
 
+CREATE VIEW `rob_belkin_patient` AS
+SELECT person.first_name, person.last_name, person.phone
+FROM person, patient, visit
+WHERE person.person_id = patient.fk_person_id 
+  AND patient.patient_id = visit.fk_patient_id 
+  AND visit.fk_doctor_id IN (SELECT doctor.doctor_id
+              FROM doctor, person
+              WHERE doctor.fk_person_id = person.person_id 
+                AND person.first_name = 'Rob' 
+                AND person.last_name = 'Belkin')
+ORDER BY person.last_name, person.first_name;
+
+
+CREATE VIEW `specialty_list` AS
+SELECT doctor_specialty.fk_doctor_id, specialty.name
+FROM doctor_specialty, specialty
+WHERE doctor_specialty.fk_spec_id = specialty.spec_id;
+
+CREATE VIEW `doctor_specialty_list` AS
+SELECT person.first_name, person.last_name, specialty_list.name
+FROM person, doctor, specialty_list
+WHERE doctor.fk_person_id = person.person_id 
+  AND specialty_list.fk_doctor_id = doctor.doctor_id
+  ORDER BY person.last_name, person.first_name; 
+
+CREATE VIEW doctor_specialty_list_all AS
+SELECT person.first_name, person.last_name, specialty_list.name
+FROM person, doctor 
+LEFT JOIN specialty_list 
+ON doctor.doctor_id = specialty_list.fk_doctor_id
+WHERE person.person_id = doctor.fk_person_id
+ORDER BY person.last_name, person.first_name; 
+
+CREATE VIEW `patient_list` AS
+SELECT perdon.person_id,
+    patient.patient_id,
+    person.first_name,
+    person.last_name,
+    person.phone,
+    person.street_address,
+    person.city,
+    person.state,
+    person.zip,
+    person.ssn,
+    person.DOB  
+FROM patient, person 
+WHERE person.person_id = patient.fk_patient_id
+ORDER BY person.last_name, person.first_name;
+
+CREATE VIEW `doctor_list` AS
+SELECT perdon.person_id,
+    doctor.doctor_id,
+    person.first_name,
+    person.last_name,
+    doctor.medical_degree,
+    person.phone,
+    person.street_address,
+    person.city,
+    person.state,
+    person.zip,
+    person.ssn,
+    person.DOB
+FROM doctor, person 
+WHERE person.person_id = doctor.fk_doctor_id
+ORDER BY person.last_name, person.first_name;
+
+CREATE VIEW `visit_list` AS
+SELECT  visit.visit_id,
+    visit.date,
+        visit.room,
+        visit.doc_note,
+        doctor.doctor_id,
+        doctor.fk_person_id as "doctor_pid",
+        CONCAT(p1.first_name, " ",p1.last_name ) as "Doctor Name",
+        patient.patient_id,
+        patient.fk_person_id as "patient_pid",
+        CONCAT(p2.first_name, " ",p2.last_name ) as "Patient Name"
+FROM visit, doctor, person p1, patient, person p2
+WHERE visit.fk_doctor_id = doctor.doctor_id
+  AND visit.fk_patient_id = patient.patient_id
+  AND doctor.fk_person_id = p1.person_id
+  AND patient.fk_person_id = p2.person_id
+ORDER BY date;
 -- -----------------------------
 -- Stored Prodedures
 -- -----------------------------
@@ -395,10 +490,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `generateVisits`(
 IN _num int
 )
 BEGIN
-  DECLARE _i INT DEFAULT 0;
-    WHILE _i < _num DO
-    INSERT IGNORE INTO visit(fk_patient_id,fk_doctor_id,date,room,doc_note) 
-    (SELECT 
+  INSERT IGNORE INTO visit(fk_patient_id,fk_doctor_id,date,room,doc_note) 
+    SELECT 
       patient.patient_id, 
       doctor.doctor_id, 
       (NOW() - INTERVAL FLOOR(RAND() * 43800) HOUR),
@@ -407,9 +500,7 @@ BEGIN
       FROM patient, doctor
       WHERE patient.fk_person_id != doctor.fk_person_id
       ORDER BY RAND()
-      LIMIT 1);
-    SET _i = _i +1;
-    END WHILE;
+      LIMIT _num;
 END$$
 DELIMITER ;
 
@@ -419,19 +510,30 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `generateSpecialties`(
 IN _num int
 )
 BEGIN
-  DECLARE _i INT DEFAULT 0;
-    WHILE _i < _num DO
-    INSERT INTO doctor_specialty(fk_doctor_id,fk_spec_id) 
-    (SELECT doctor_id, spec_id
-      FROM doctor, specialty
-      WHERE (doctor_id, spec_id) NOT IN (SELECT * FROM doctor_specialty)
-      ORDER BY RAND()
-      LIMIT 1);
-    SET _i = _i +1;
-    END WHILE;
+  INSERT INTO doctor_specialty(fk_doctor_id,fk_spec_id) 
+  (SELECT doctor_id, spec_id
+    FROM doctor, specialty
+    WHERE (doctor_id, spec_id) NOT IN (SELECT * FROM doctor_specialty)
+    ORDER BY RAND()
+    LIMIT _num);
 END$$
 DELIMITER ;
 
+-- update 1 random doctor specialty
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_specialty`()
+BEGIN
+  DECLARE _new_spec_id INT DEFAULT (  SELECT spec_id 
+                    FROM specialty
+                    ORDER BY RAND() LIMIT 1);
+    UPDATE doctor_specialty
+    SET fk_spec_id = _new_spec_id
+    WHERE (fk_doctor_id, _new_spec_id)
+    NOT IN (SELECT * FROM (SELECT ds.fk_doctor_id as did, ds.fk_spec_id as sid FROM doctor_specialty ds) as q) 
+  ORDER BY RAND()
+    LIMIT 1;
+END$$
+DELIMITER ;
 
 -- generate appointment tests based on visits and tests 
 DELIMITER $$
@@ -439,16 +541,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `generateAppointmentTests`(
 IN _num int
 )
 BEGIN
-  DECLARE _i INT DEFAULT 0;
-    WHILE _i < _num DO
     INSERT INTO appointment_test(fk_test_id,fk_appointment_id) 
-    (SELECT test_id, visit_id
+    SELECT test_id, visit_id
       FROM test, visit
       WHERE (test_id, visit_id) NOT IN (SELECT * FROM appointment_test)
       ORDER BY RAND()
-      LIMIT 1);
-    SET _i = _i +1;
-    END WHILE;
+      LIMIT _num;
 END$$
 DELIMITER ;
 
@@ -458,18 +556,96 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `generatePescriptions`(
 IN _num int
 )
 BEGIN
-  DECLARE _i INT DEFAULT 0;
-    WHILE _i < _num DO
     INSERT INTO visit_prescription(fk_visit_id,fk_prescription_id) 
-    (SELECT visit_id, prescription_id
+    SELECT visit_id, prescription_id
       FROM visit, prescription
       WHERE (visit_id, prescription_id) NOT IN (SELECT * FROM visit_prescription)
       ORDER BY RAND()
-      LIMIT 1);
-    SET _i = _i +1;
-    END WHILE;
+      LIMIT _num;
 END$$
 DELIMITER ;
+
+-- gives prescription name and number of patients from the city of Fullerton with that prescription
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `prescriptions_in_fullerton`()
+BEGIN
+SELECT count(patient.patient_id),  prescription.name
+FROM person, patient, visit, visit_prescription, prescription
+WHERE person.person_id = patient.fk_person_id
+  AND patient.patient_id = visit.fk_patient_id
+    AND visit.visit_id = visit_prescription.fk_visit_id
+    AND visit_prescription.fk_prescription_id = prescription.prescription_id
+    AND person.city = "Fullerton"
+GROUP BY prescription.prescription_id
+ORDER BY count(patient.patient_id) DESC;
+END$$
+DELIMITER ;
+
+
+-- -----------------------------------------------------
+-- backups
+-- -----------------------------------------------------
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createBackup`()
+BEGIN
+  DROP TABLE IF EXISTS person_backup ;
+  CREATE TABLE person_backup LIKE person;
+  INSERT INTO person_backup
+  SELECT * FROM person;
+
+  DROP TABLE IF EXISTS doctor_backup ;
+  CREATE TABLE doctor_backup LIKE doctor;
+  INSERT INTO doctor_backup
+  SELECT * FROM doctor;
+
+  DROP TABLE IF EXISTS patient_backup ;
+  CREATE TABLE patient_backup LIKE patient;
+  INSERT INTO patient_backup
+  SELECT * FROM patient;
+
+  DROP TABLE IF EXISTS appointment_test_backup ;
+  CREATE TABLE appointment_test_backup LIKE appointment_test;
+  INSERT INTO appointment_test_backup
+  SELECT * FROM appointment_test;
+
+  DROP TABLE IF EXISTS doctor_specialty_backup ;
+  CREATE TABLE doctor_specialty_backup LIKE doctor_specialty;
+  INSERT INTO doctor_specialty_backup
+  SELECT * FROM doctor_specialty;
+
+  DROP TABLE IF EXISTS prescription_backup ;
+  CREATE TABLE prescription_backup LIKE prescription;
+  INSERT INTO prescription_backup
+  SELECT * FROM prescription;
+
+  DROP TABLE IF EXISTS specialty_backup ;
+  CREATE TABLE specialty_backup LIKE specialty;
+  INSERT INTO specialty_backup
+  SELECT * FROM specialty;
+
+  DROP TABLE IF EXISTS specialty_audit_backup ;
+  CREATE TABLE specialty_audit_backup LIKE specialty_audit;
+  INSERT INTO specialty_audit_backup
+  SELECT * FROM specialty_audit;
+
+  DROP TABLE IF EXISTS test_backup ;
+  CREATE TABLE test_backup LIKE test;
+  INSERT INTO test_backup
+  SELECT * FROM test;
+
+  DROP TABLE IF EXISTS visit_backup ;
+  CREATE TABLE visit_backup LIKE visit;
+  INSERT INTO visit_backup
+  SELECT * FROM visit;
+
+  DROP TABLE IF EXISTS visit_prescription_backup ;
+  CREATE TABLE visit_prescription_backup LIKE visit_prescription;
+  INSERT INTO visit_prescription_backup
+  SELECT * FROM visit_prescription;
+END$$
+DELIMITER ;
+
 
 -- ---------------------------
 -- insert records
@@ -827,52 +1003,12 @@ call cpsc332_db_project.insertPatient('Augie', 'Marriage', '480-350-3509', '23 M
 call cpsc332_db_project.insertPatient('Nicoli', 'Devey', '782-603-9469', '70324 La Follette Way', 'Raleigh', 'North Carolina', '31174', '882-28-8818', '6/16/1992');
 
 
-
-
-insert into prescription(name) values ('Panadol');
-insert into prescription(name) values ('Xadril');
-insert into prescription(name) values ('Dapins');
-insert into prescription(name) values ('Thalistone');
-insert into prescription(name) values ('Bacteritorol');
-insert into prescription(name) values ('Macroxapine ');
-insert into prescription(name) values ('Formoporin ');
-insert into prescription(name) values ('Alloderall ');
-insert into prescription(name) values ('Glykolukomex');
-
-
-insert into test(name) values ('Blood');
-insert into test(name) values ('Physical');
-insert into test(name) values ('X-Ray');
-insert into test(name) values ('Allergies');
-insert into test(name) values ('CT Scan');
-insert into test(name) values ('MRI');
-insert into test(name) values ('Diabetes');
-insert into test(name) values ('Vampirism');
-insert into test(name) values ('Vertigo');
-insert into test(name) values ('Mutant');
-insert into test(name) values ('Werewolf');
-insert into test(name) values ('Zombie');
-insert into test(name) values ('Witch');
-
-
-insert into specialty(name) values ('Anesthesiology');
-insert into specialty(name) values ('Dermatology');
-insert into specialty(name) values ('Otolaryngology');
-insert into specialty(name) values ('Dancing');
-insert into specialty(name) values ('Evil Robots');
-insert into specialty(name) values ('Laser Sharks');
-insert into specialty(name) values ('Doomsday Mechanical Engineering');
-insert into specialty(name) values ('Doomsday Medical Engineering');
-insert into specialty(name) values ('Allergies');
-insert into specialty(name) values ('Evil Allergies');
-insert into specialty(name) values ('Groove');
-insert into specialty(name) values ('Slow Jams');
-insert into specialty(name) values ('Forbidden Expiriments');
-insert into specialty(name) values ('Radiology');
-insert into specialty(name) values ('Evil Radiology');
+insert into prescription(name) values ('Panadol', 'Xadril', 'Dapins', 'Thalistone', 'Bacteritorol', 'Macroxapine ', 'Formoporin ', 'Alloderall ', 'Glykolukomex');
+insert into test(name) values ('Blood', 'Physical', 'X-Ray', 'Allergies', 'CT Scan', 'MRI', 'Diabetes', 'Vampirism', 'Vertigo', 'Mutant', 'Werewolf', 'Zombie', 'Witch');
+insert into specialty(name) values ('Anesthesiology', 'Dermatology', 'Otolaryngology', 'Evil Mechanical Robots', 'Laser Sharks', 'Doomsday Mechanical Engineering', 'Doomsday Medical Science', 'Allergies', 'Evil Allergies', 'Groove', 'Forbidden Expiriments', 'Radiology', 'Evil Radiology');
 
 
 call cpsc332_db_project.generateVisits(1000); 
-call cpsc332_db_project.generatePescriptions(150);
-call cpsc332_db_project.generateAppointmentTests(150);
+call cpsc332_db_project.generatePescriptions(300);
+call cpsc332_db_project.generateAppointmentTests(300);
 CALL cpsc332_db_project.generateSpecialties(40);
