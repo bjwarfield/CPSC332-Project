@@ -387,7 +387,7 @@ WHERE person.person_id = doctor.fk_person_id
 ORDER BY person.last_name, person.first_name; 
 
 CREATE VIEW `patient_list` AS
-SELECT perdon.person_id,
+SELECT person.person_id,
     patient.patient_id,
     person.first_name,
     person.last_name,
@@ -399,11 +399,11 @@ SELECT perdon.person_id,
     person.ssn,
     person.DOB  
 FROM patient, person 
-WHERE person.person_id = patient.fk_patient_id
+WHERE person.person_id = patient.patient_id
 ORDER BY person.last_name, person.first_name;
 
 CREATE VIEW `doctor_list` AS
-SELECT perdon.person_id,
+SELECT person.person_id,
     doctor.doctor_id,
     person.first_name,
     person.last_name,
@@ -416,7 +416,7 @@ SELECT perdon.person_id,
     person.ssn,
     person.DOB
 FROM doctor, person 
-WHERE person.person_id = doctor.fk_doctor_id
+WHERE person.person_id = doctor.doctor_id
 ORDER BY person.last_name, person.first_name;
 
 CREATE VIEW `visit_list` AS
@@ -1003,9 +1003,41 @@ call cpsc332_db_project.insertPatient('Augie', 'Marriage', '480-350-3509', '23 M
 call cpsc332_db_project.insertPatient('Nicoli', 'Devey', '782-603-9469', '70324 La Follette Way', 'Raleigh', 'North Carolina', '31174', '882-28-8818', '6/16/1992');
 
 
-insert into prescription(name) values ('Panadol', 'Xadril', 'Dapins', 'Thalistone', 'Bacteritorol', 'Macroxapine ', 'Formoporin ', 'Alloderall ', 'Glykolukomex');
-insert into test(name) values ('Blood', 'Physical', 'X-Ray', 'Allergies', 'CT Scan', 'MRI', 'Diabetes', 'Vampirism', 'Vertigo', 'Mutant', 'Werewolf', 'Zombie', 'Witch');
-insert into specialty(name) values ('Anesthesiology', 'Dermatology', 'Otolaryngology', 'Evil Mechanical Robots', 'Laser Sharks', 'Doomsday Mechanical Engineering', 'Doomsday Medical Science', 'Allergies', 'Evil Allergies', 'Groove', 'Forbidden Expiriments', 'Radiology', 'Evil Radiology');
+insert into prescription(name) values ('Panadol');
+insert into prescription(name) values ( 'Xadril');
+insert into prescription(name) values ('Dapins');
+insert into prescription(name) values ('Thalistone');
+insert into prescription(name) values ('Bacteritorol');
+insert into prescription(name) values ('Macroxapine ');
+insert into prescription(name) values ('Formoporin ');
+insert into prescription(name) values ('Alloderall ');
+insert into prescription(name) values ('Glykolukomex');
+insert into test(name) values ('Blood');
+insert into test(name) values ('Physical');
+insert into test(name) values ('X-Ray');
+insert into test(name) values ('Allergies');
+insert into test(name) values ('CT Scan');
+insert into test(name) values ('MRI');
+insert into test(name) values ('Diabetes');
+insert into test(name) values ('Vampirism');
+insert into test(name) values ('Vertigo');
+insert into test(name) values ('Mutant');
+insert into test(name) values ('Werewolf');
+insert into test(name) values ('Zombie');
+insert into test(name) values ('Witch');
+insert into specialty(name) values ('Anesthesiology');
+insert into specialty(name) values ('Dermatology');
+insert into specialty(name) values ('Otolaryngology');
+insert into specialty(name) values ('Evil Mechanical Robots');
+insert into specialty(name) values ('Laser Sharks');
+insert into specialty(name) values ('Doomsday Mechanical Engineering');
+insert into specialty(name) values ('Doomsday Medical Science');
+insert into specialty(name) values ('Allergies');
+insert into specialty(name) values ('Evil Allergies');
+insert into specialty(name) values ('Groove');
+insert into specialty(name) values ('Forbidden Expiriments');
+insert into specialty(name) values ('Radiology');
+insert into specialty(name) values ('Evil Radiology');
 
 
 call cpsc332_db_project.generateVisits(1000); 
